@@ -1,3 +1,13 @@
+# IDES & TEXT EDITORS
+.idea
+.vscode
+.zed
+.project
+.classpath
+.settings
+# feel free to add more - want editor agnostic project
+
+# GRADLE
 .gradle
 .kotlin
 build
