@@ -8,5 +8,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("dev.arsngrobg.luam.LuamDriver")
+    mainClass.set("dev.arsngrobg.luam.driver.LuamDriver")
 }
