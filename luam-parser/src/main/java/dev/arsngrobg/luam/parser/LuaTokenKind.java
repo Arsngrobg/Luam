@@ -14,7 +14,7 @@ package dev.arsngrobg.luam.parser;
  *
  * @see <a href="https://www.lua.org/manual/5.1/manual.html#2.1">Lua 5.1 Manual - Lexical Conventions</a>
  */
-public enum LuaToken {
+public enum LuaTokenKind {
     /// Identifiers
     NAME,
 
