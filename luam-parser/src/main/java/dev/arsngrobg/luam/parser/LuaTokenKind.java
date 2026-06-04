@@ -15,59 +15,24 @@ package dev.arsngrobg.luam.parser;
  * @see <a href="https://www.lua.org/manual/5.1/manual.html#2.1">Lua 5.1 Manual - Lexical Conventions</a>
  */
 public enum LuaTokenKind {
-    /// Identifiers
+    // Identifiers
     NAME,
 
-    /// Literals
-    STRING,
-    NUMBER,
+    // Literals
+    STRING, NUMBER,
 
-    /// Keywords
-    AND,
-    BREAK,
-    DO,
-    ELSE,
-    ELSEIF,
-    END,
-    FALSE,
-    FOR,
-    FUNCTION,
-    IF,
-    IN,
-    LOCAL,
-    NIL,
-    NOT,
-    OR,
-    REPEAT,
-    RETURN,
-    THEN,
-    TRUE,
-    UNTIL,
-    WHILE,
+    // Keywords
+    AND,      BREAK,    DO,       ELSE,     ELSEIF,
+    END,      FALSE,    FOR,      FUNCTION, IF,
+    IN,       LOCAL,    NIL,      NOT,      OR,
+    REPEAT,   RETURN,   THEN,     TRUE,     UNTIL,    WHILE,
 
-    /// Arithmetic Operators
-    ADD,
-    SUB,
-    MUL,
-    DIV,
-    MOD,
-    POW,
-    LEN,
+    // Arithmetic Operators
+    ADD, SUB, MUL, DIV, MOD, POW, LEN,
 
-    /// Relational Operators
-    EQ,
-    NEQ,
-    LTE,
-    GTE,
-    LT,
-    GT,
-    ASSIGN,
+    // Relational Operators
+    EQ, NEQ, LTE, GTE, LT,GT, ASSIGN,
 
-    /// Delimiters
-    LPAREN,
-    RPAREN,
-    LBRACE,
-    RBRACE,
-    LBRACK,
-    RBRACK
+    // Delimiters
+    LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK
 }
