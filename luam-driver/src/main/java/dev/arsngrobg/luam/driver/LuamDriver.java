@@ -4,7 +4,7 @@ import dev.arsngrobg.luam.parser.*;
 
 public final class LuamDriver {
     public static void main(String[] args) {
-        for (LuaToken.Kind tknKind : LuaToken.Kind.values()) {
+        for (LuaTokenKind tknKind : LuaTokenKind.values()) {
             System.err.printf("%s\n", tknKind.toString().toLowerCase());
         }
 
