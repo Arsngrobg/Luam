@@ -17,7 +17,7 @@ Lua is very narrow in the scope of its applications, it is primarily used in scr
 
 I just really like Lua as a language.
 
-*This project does not use the actual Lua source code, rather I have written the parser from scratch using Java as I want the external dependencies required to use this project at **zero** - in short, if you can run Minecraft, you can use the compiler.*
+*This project does not use the actual Lua source code, rather I have written the parser from scratch using Java using the Lua language reference as I want the external dependencies required to use this project at **zero** - in short, if you can run Minecraft, you can use the compiler.*
 
 ## Similar Projects
 - Beet - a data-driven Python *"development kit"* for creating datapacks
@@ -42,7 +42,7 @@ This will produce the equivalent `.mcfunction` file:
 say Hello, World!
 ```
 
-Obviously, the compiler will generate the respective `pack.mcmeta` and required JSON data in order for the datapack to be executable.
+The compiler will also generate the required `pack.mcmeta` file.
 
 To get further information on how to use Luam:
 ```bash
@@ -52,8 +52,8 @@ To get further information on how to use Luam:
 ## Useful Options
 Some compiler options that are useful when compiling source code:
 - `-o <name>`: meaning *output name*, sets the name of the datapack after compilation
-- `-img=<url>`: the `pack.png` image bundled with the compiled datapack
-- `-format=<min>(,<max>)?`: the minimum pack format the datapack should support (and optional maximum)
+- `-icon=<url>`: the `pack.png` image bundled with the compiled datapack
+- `-format=<min>(,<max>)?`: the minimum pack format the datapack should support (and optional maximum) - defaults to the latest compilable version
 
 ## Compiler Optimizations
 By default, Luam does not make any effort to optimize.
@@ -69,8 +69,8 @@ A list of each optimization is listed below:
 
 ### Level 1 (-O1)
 - Constant Folding             (`-fconst-fold`)
-- Dead Branch Elimination      (`-fremove-dead-subtree`)
-- Algebraic Simplifications    (`-fsimplify-math`)
+- Dead Branch Elimination      (`-fprune-dead`)
+- Algebraic Simplifications    (`-ffast-math`)
 - Function Inlining            (`-fsimple-inline`)
 
 ### Level 2 (-O2)
