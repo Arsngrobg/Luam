@@ -1,71 +1,111 @@
 # Luam */luːm/*
-An **ahead-of-time (AOT)** compiler for Minecraft datapacks, using Lua *(5.1)* as the language frontend.
+An **ahead-of-time (AOT)** compiler for Minecraft datapacks, using Lua 5.1 as the language frontend.
 
 ## Why Does This Project Exist?
-It can be incredibly mentally cumbersome to write datapack logic.
-You are restricted to Minecraft's command syntax, making it feel like the equivalent of writing raw assembly.
-Due to that, there *currently* are not any high-level programming constructs like control flow or importantly complex data management like structures.
-On top of that, every line of code must be wrapped within an `.mcfunction` file.
-Projects get difficult to maintain as project size grows.
-It has a very sparse build process
-Lastly, datapacks treat **data** as **code**.
+- You are restricted to Minecraft's command syntax
+- No direct support for iteration
+- No direct support for structured data
+- A single "block" or unit of code must be within its own `.mcfunction` file
+- For advanced projects, they become amalgamations of `.mcfunction`s and JSON files
 
 ## Why Lua?
-Lua is *easy to parse*, it is very disambiguous with its syntax.
-Originally, Javascript was considered, but the language is too ambigous (I did not want to test the hundreds of little quirks of the language in order to have complete parity with Javascript).
-Lua is very narrow in the scope of its applications, it is primarily used in scripting in software such as NeoVim or Garry's Mod for example.
-
-I just really like Lua as a language.
-
-*This project does not use the actual Lua source code, rather I have written the parser from scratch using Java using the Lua language reference as I want the external dependencies required to use this project at **zero** - in short, if you can run Minecraft, you can use the compiler.*
+- Lua is *easy to parse*, it has a very disambiguous syntax.
+- Lua is known for being embedded in applications for extending them (e.g. NeoVim, Garry's Mod, Roblox)
+- Lua tables align with how data is represented in Minecraft
+- I like Lua
 
 ## Similar Projects
-- Beet - a data-driven Python *"development kit"* for creating datapacks
-- Sandstone - a Typescript datapack library
-- ObjD - a framework for developing datapacks in the Dart programming language
+- [Beet](https://mcbeet.dev) - a data-driven Python *"development kit"* for creating datapacks
+- [Sandstone](https://sandstone.dev) - a Typescript datapack library
+- [ObjD](https://objd.stevertus.com) - a framework for developing datapacks in the Dart programming language
 
 ## Getting Started
-Download the jar or compile the source tree directly.
+See below on how to get started with Luam.
 
-Write some Lua code:
+### 1. How to Install
+- Go to the releases **[TODO]** page
+- Download the compiled JAR file
+- Place the JAR in a location (optional)
+- Add the path of the JAR into your PATH (optional)
+- Test the compiler using:
+```bash
+~ > luam --version
+```
+
+### 2. Compile from Source
+Compiling from source is just as simple as installing.
+- Download the latest stable release of the source tree
+- At the root of the repository, invoke this command
+```bash
+~ > .\gradlew compileJava
+```
+- If successful you should have an executable JAR file
+- Test the compiler using:
+```bash
+~ > luam --version
+```
+
+### Your First Script
+After sucessfully compiling/installing Luam on your device, check the `examples` directory for different Lua scripts to test the features of the compiler.
+For example, here is the `hello-world.lua` snippet:
+
 ```lua
+-- literally just prints 'Hello, World!'
 print('Hello, World!')
 ```
 
-Invoke the compiler as follows:
+Invoke the compiler (assuming cwd is `examples`):
 ```bash
-~ > luam script.lua
+~ > luam hello-world.lua -o hello-world
 ```
 
-This will produce the equivalent `.mcfunction` file:
-```mcfunction
-say Hello, World!
+The `-o` flag signals to the compiler that you want to specify a name for the datapack.
+It is optional, and will default to a random name if left unspecified.
+
+- Place the datapack in your Minecraft world data folder
+- Load up the respective Minecraft world
+- On load, you should see a message pop-up in the chat history:
+```
+[server] Hello, World!
 ```
 
-The compiler will also generate the required `pack.mcmeta` file.
+### Adding an icon
+Every proffessional datapack needs to have a thumbnail.
 
-To get further information on how to use Luam:
+Going back to compiling the `hello-world.lua` script:
 ```bash
-~ > luam --help
+~ > luam hello-world.lua -i icon.png
 ```
 
-## Useful Options
-Some compiler options that are useful when compiling source code:
-- `-o <name>`: meaning *output name*, sets the name of the datapack after compilation
-- `-icon=<url>`: the `pack.png` image bundled with the compiled datapack
-- `-format=<min>(,<max>)?`: the minimum pack format the datapack should support (and optional maximum) - defaults to the latest compilable version
+The `-i` flag signals to the compiler that you want to specify a URL to an image file that will show up in the datapacks list on Minecraft.
+
+### Targetting Specific Minecraft Versions
+You may want to compile for the latest version of mimecraft; or you may want to compile a different target version.
+By default, Luam defaults to the latest compilable version known to it.
+However, you are allowed to specify the maximum and minimum [pack format](https://minecraft.wiki/w/Pack_format) for the datapack:
+
+```bash
+~ > luam hello-world.lua --format=48,81
+```
+
+the secondary format value (`81`) is an optional value and declares the maximum [pack format](https://minecraft.wiki/w/Pack_format).
+For brevity, the syntax of the option is as follows:
+```
+--format=<min>(,<max>)?
+```
 
 ## Compiler Optimizations
-By default, Luam does not make any effort to optimize.
-The only optimization it makes is tail call optimization (TCO) as it is a feature of the language.
-You configure the optimization level of the compiler using the `-O[LEVEL]` flag, where `-O0` is the default.
+To retain 100% parity with Lua 5.1, Luam optimizes tail calls as the Lua manual states it is a [feature of the language](https://www.lua.org/pil/6.3.html).
+
+But, by default, Luam makes no effort to optimize.
+The compiler always assumes an optimization level of `0`, unless specified otherwise.
+The `-O<level>` flag specifies the optimization level, with the maximum being `3`.
 This is heavily inspired by the design of the GNU C Compiler (GCC).
-A list of each optimization is listed below:
 
-### Level 0 (-O0) (Default)
+A list if each optimization level, and what each enables, are listed below.
+
+### Level 0 (`-O0`) **(Default)**
 - Tail Call Optimization (TCO)
-
-*The Lua specification defines TCO as a language feature, so it cannot be disabled.*
 
 ### Level 1 (-O1)
 - Constant Folding             (`-fconst-fold`)
@@ -80,26 +120,6 @@ A list of each optimization is listed below:
 - Aggressive Function Inlining (`-faggressive-inline`)
 
 *Lua functions in a tail call are not inlined!*
-
-### Example
-Take this piece of Lua code:
-```lua
-for n=0,5 do
-    print(n)
-end
-```
-
-At optimization level 0, it will extract this loop into an `.mcfunction` file that executes the `say` command 5 times by repeatedly calling itself.
-
-At optimization level 1 (or using the `-floop-opt` flag), it will produce equivalent `.mcfunction` code:
-```lua
-print(0)
-print(1)
-print(2)
-print(3)
-print(4)
-print(5)
-```
 
 ### References
 - https://www.lua.org/about.html
