@@ -5,12 +5,13 @@ An **ahead-of-time (AOT)** compiler for Minecraft datapacks, using Lua 5.1 as th
 - You are restricted to Minecraft's command syntax
 - No direct support for iteration
 - No direct support for structured data
+- Control flow is supported, but only through callback functions
 - A single "block" or unit of code must be within its own `.mcfunction` file
 - For advanced projects, they become amalgamations of `.mcfunction`s and JSON files
 
 ## Why Lua?
 - Lua is *easy to parse*, it has a very disambiguous syntax.
-- Lua is known for being embedded in applications for extending them (e.g. NeoVim, Garry's Mod, Roblox)
+- Lua is known for being embedded in host-applications (e.g. NeoVim, Garry's Mod, Roblox)
 - Lua tables align with how data is represented in Minecraft
 - I like Lua
 
