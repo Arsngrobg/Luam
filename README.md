@@ -6,6 +6,8 @@ An **ahead-of-time (AOT)** compiler for Minecraft datapacks, using Lua 5.1 as th
 - No direct support for iteration
 - No direct support for structured data
 - Control flow is supported, but only through callback functions
+- No call stack
+- Global mutable state
 - A single "block" or unit of code must be within its own `.mcfunction` file
 - For advanced projects, they become amalgamations of `.mcfunction`s and JSON files
 
@@ -13,7 +15,6 @@ An **ahead-of-time (AOT)** compiler for Minecraft datapacks, using Lua 5.1 as th
 - Lua is *easy to parse*, it has a very disambiguous syntax.
 - Lua is known for being embedded in host-applications (e.g. NeoVim, Garry's Mod, Roblox)
 - Lua tables align with how data is represented in Minecraft
-- I like Lua
 
 ## Similar Projects
 - [Beet](https://mcbeet.dev) - a data-driven Python *"development kit"* for creating datapacks
@@ -26,7 +27,7 @@ See below on how to get started with Luam.
 ### 1. How to Install
 - Go to the releases **[TODO]** page
 - Download the compiled JAR file
-- Place the JAR in a location (optional)
+- Place the JAR in a location of your choosing
 - Add the path of the JAR into your PATH (optional)
 - Test the compiler using:
 ```bash
@@ -38,7 +39,7 @@ Compiling from source is just as simple as installing.
 - Download the latest stable release of the source tree
 - At the root of the repository, invoke this command
 ```bash
-~> gradlew compileJava
+~> gradlew assemble
 ```
 - If successful you should have an executable JAR file
 - Test the compiler using:
@@ -47,7 +48,7 @@ Compiling from source is just as simple as installing.
 ```
 
 ### Your First Script
-After sucessfully compiling/installing Luam on your device, check the `examples` directory for different Lua scripts to test the features of the compiler.
+To start off with, check the `examples` directory for different Lua scripts to test the features of the compiler.
 For example, here is the `hello-world.lua` snippet:
 
 ```lua
@@ -100,7 +101,7 @@ To retain 100% parity with Lua 5.1, Luam optimizes tail calls as the Lua manual 
 
 But, by default, Luam makes no effort to optimize.
 The compiler always assumes an optimization level of `0`, unless specified otherwise.
-The `-O<level>` flag specifies the optimization level, with the maximum being `3`.
+The `-O<level>` flag specifies the optimization level, with the maximum being level `3`.
 This is heavily inspired by the design of the GNU C Compiler (GCC).
 
 A list if each optimization level, and what each enables, are listed below.
@@ -113,14 +114,16 @@ A list if each optimization level, and what each enables, are listed below.
 - Dead Branch Elimination      (`-fprune-dead`)
 - Algebraic Simplifications    (`-ffast-math`)
 - Function Inlining            (`-fsimple-inline`)
+    - *Functions in tail call are not inlined*
 
 ### Level 2 (-O2)
 - Constant Propagation         (`-fconst-prop`)
 - Dead Code Elimination        (`-fremove-dead-code`)
 - Static Loop Optimizations    (`-floop-opt`)
 - Aggressive Function Inlining (`-faggressive-inline`)
+    - *Functions in tail call are not inlined*
 
-*Lua functions in a tail call are not inlined!*
+**Optimization levels are cumulative**
 
 ### References
 - https://www.lua.org/about.html
@@ -130,3 +133,5 @@ A list if each optimization level, and what each enables, are listed below.
 - https://mcbeet.dev
 - https://sandstone.dev
 - https://objd.stevertus.com
+- https://minecraft.wiki/w/Pack_format
+- https://www.lua.org/pil/6.3.html
