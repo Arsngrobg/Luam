@@ -9,7 +9,8 @@ An **ahead-of-time (AOT)** compiler for Minecraft datapacks, using Lua 5.1 as th
 - No call stack
 - Global mutable state
 - A single "block" or unit of code must be within its own `.mcfunction` file
-- For advanced projects, they become amalgamations of `.mcfunction`s and JSON files
+- For advanced projects, they become amalgamations of `.mcfunction` and `.json` files
+- Data is treated as code
 
 ## Why Lua?
 - Lua is *easy to parse*, it has a very disambiguous syntax.
