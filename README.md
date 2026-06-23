@@ -29,7 +29,7 @@ See below on how to get started with Luam.
 - Add the path of the JAR into your PATH (optional)
 - Test the compiler using:
 ```bash
-~ > luam --version
+~> luam --version
 ```
 
 ### 2. Compile from Source
@@ -37,12 +37,12 @@ Compiling from source is just as simple as installing.
 - Download the latest stable release of the source tree
 - At the root of the repository, invoke this command
 ```bash
-~ > .\gradlew compileJava
+~> gradlew compileJava
 ```
 - If successful you should have an executable JAR file
 - Test the compiler using:
 ```bash
-~ > luam --version
+~> luam --version
 ```
 
 ### Your First Script
@@ -56,7 +56,7 @@ print('Hello, World!')
 
 Invoke the compiler (assuming cwd is `examples`):
 ```bash
-~ > luam hello-world.lua -o hello-world
+~> luam hello-world.lua -o hello-world
 ```
 
 The `-o` flag signals to the compiler that you want to specify a name for the datapack.
@@ -74,7 +74,7 @@ Every proffessional datapack needs to have a thumbnail.
 
 Going back to compiling the `hello-world.lua` script:
 ```bash
-~ > luam hello-world.lua -i icon.png
+~> luam hello-world.lua -i icon.png
 ```
 
 The `-i` flag signals to the compiler that you want to specify a URL to an image file that will show up in the datapacks list on Minecraft.
@@ -85,7 +85,7 @@ By default, Luam defaults to the latest compilable version known to it.
 However, you are allowed to specify the maximum and minimum [pack format](https://minecraft.wiki/w/Pack_format) for the datapack:
 
 ```bash
-~ > luam hello-world.lua --format=48,81
+~> luam hello-world.lua --format=48,81
 ```
 
 the secondary format value (`81`) is an optional value and declares the maximum [pack format](https://minecraft.wiki/w/Pack_format).
