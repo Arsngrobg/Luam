@@ -1,7 +1,7 @@
 # Luam */luːm/*
 An **ahead-of-time (AOT)** compiler for Minecraft datapacks, using Lua 5.1 as the language frontend.
 
-## Why Does This Project Exist?
+## Writing Datapacks by Hand Can Be Annoying
 - You are restricted to Minecraft's command syntax
 - No direct support for iteration
 - No direct support for structured data
