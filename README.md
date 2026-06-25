@@ -54,6 +54,7 @@ For example, here is the `hello-world.lua` snippet:
 
 ```lua
 -- literally just prints 'Hello, World!'
+
 print('Hello, World!')
 ```
 
