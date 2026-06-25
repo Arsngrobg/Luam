@@ -85,17 +85,19 @@ The `-i` flag signals to the compiler that you want to specify a URL to an image
 ### Targetting Specific Minecraft Versions
 You may want to compile for the latest version of mimecraft; or you may want to compile a different target version.
 By default, Luam defaults to the latest compilable version known to it.
-However, you are allowed to specify the maximum and minimum [pack format](https://minecraft.wiki/w/Pack_format) for the datapack:
-
+However, you can specify a minimum version for this datapack as follows:
 ```bash
-~> luam hello-world.lua --format=48,81
+~> luam hello-world.lua --format=48
 ```
+*This specifies that the datapack is runnable on Minecraft version 1.21 or later.*
 
-the secondary format value (`81`) is an optional value and declares the maximum [pack format](https://minecraft.wiki/w/Pack_format).
-For brevity, the syntax of the option is as follows:
+You may want to also specify a maximum version:
+```bash
+~> luam hello-world.lua --format=48,78
 ```
---format=<min>(,<max>)?
-```
+*This specifies that the datapack is runnable on Minecraft versions 1.21 through 1.12.8.*
+
+**You also cannot specify a maximum version without a minimum version.**
 
 ## Compiler Optimizations
 To retain 100% parity with Lua 5.1, Luam optimizes tail calls as the Lua manual states it is a [feature of the language](https://www.lua.org/pil/6.3.html).
@@ -110,21 +112,21 @@ A list if each optimization level, and what each enables, are listed below.
 ### Level 0 (`-O0`) **(Default)**
 - Tail Call Optimization (TCO)
 
-### Level 1 (-O1)
+### Level 1 (`-O1`)
 - Constant Folding             (`-fconst-fold`)
 - Dead Branch Elimination      (`-fprune-dead`)
 - Algebraic Simplifications    (`-ffast-math`)
 - Function Inlining            (`-fsimple-inline`)
     - *Functions in tail call are not inlined*
 
-### Level 2 (-O2)
+### Level 2 (`-O2`)
 - Constant Propagation         (`-fconst-prop`)
 - Dead Code Elimination        (`-fremove-dead-code`)
 - Static Loop Optimizations    (`-floop-opt`)
 - Aggressive Function Inlining (`-faggressive-inline`)
     - *Functions in tail call are not inlined*
 
-**Optimization levels are cumulative**
+**Optimization levels are cumulative.**
 
 ### References
 - https://www.lua.org/about.html
