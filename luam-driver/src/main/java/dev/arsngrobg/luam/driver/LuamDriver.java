@@ -8,7 +8,7 @@ public final class LuamDriver {
             System.err.printf("%s\n", tknKind.toString().toLowerCase());
         }
 
-        LuaSourcePosition pos = LuaSourcePosition.START;
+        LuaSourcePosition pos = LuaSourcePosition.at(0, 0);
         System.out.println(pos);
     }
 }
