@@ -1,14 +1,10 @@
 package dev.arsngrobg.luam.parser;
 
 public final class LuaSourcePosition {
-    public static final LuaSourcePosition START = new LuaSourcePosition(0, 0);
+    public static LuaSourcePosition at(int line, int column) throws IllegalArgumentException {
+        if (line   < 0) throw new IllegalArgumentException("line must be non-negative");
+        if (column < 0) throw new IllegalArgumentException("column must be non-negative");
 
-    public static LuaSourcePosition at(int line, int column) {
-        if (line   < 0) throw new NumberFormatException("line must be non-negative");
-        if (column < 0) throw new NumberFormatException("column must be non-negative");
-
-        if (line == 0 && column == 0)
-            return LuaSourcePosition.START;
         return new LuaSourcePosition(line, column);
     }
 
