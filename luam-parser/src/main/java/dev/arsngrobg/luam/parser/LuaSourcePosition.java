@@ -1,44 +1,17 @@
 package dev.arsngrobg.luam.parser;
 
-public final class LuaSourcePosition {
-    public static LuaSourcePosition at(int line, int column) throws IllegalArgumentException {
-        if (line   < 0) throw new IllegalArgumentException("line must be non-negative");
-        if (column < 0) throw new IllegalArgumentException("column must be non-negative");
-
-        return new LuaSourcePosition(line, column);
-    }
-
-    private final int line;
-    private final int column;
-
-    private LuaSourcePosition(int line, int column) {
-        this.line   = line;
-        this.column = column;
-    }
-
-    public int getLine() {
-        return line;
-    }
-
-    public int getColumn() {
-        return column;
-    }
-
-    @Override
-    public int hashCode() {
-        return getLine() ^ getColumn();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof LuaSourcePosition other)) {
-            return false;
+public record LuaSourcePosition(int line, int column) {
+    public LuaSourcePosition {
+        if (line < 0) {
+            throw new IllegalArgumentException("line componenent must be unsigned");
         }
-        return getLine() == other.getLine() && getColumn() == other.getColumn();
+        if (column < 0) {
+            throw new IllegalArgumentException("column component must be unsigned");
+        }
     }
 
     @Override
-    public String toString() {
-        return String.format("(%d, %d)", getLine(), getColumn());
+    public final String toString() {
+        return String.format("(%d, %d)", line(), column());
     }
 }
