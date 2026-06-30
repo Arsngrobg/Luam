@@ -11,3 +11,6 @@
 .gradle
 .kotlin
 build
+
+# COMPILER OUTPUT
+*.class
