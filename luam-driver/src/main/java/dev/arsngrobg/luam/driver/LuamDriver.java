@@ -10,5 +10,10 @@ public final class LuamDriver {
 
         LuaSourcePosition pos = new LuaSourcePosition(0, 0);
         System.out.println(pos);
+
+        LuaTokenizer tokenizer = new LuaTokenizer("and.or.local.+-,==");
+        for (LuaToken token : tokenizer) {
+            System.out.println(token);
+        }
     }
 }

@@ -1,13 +1,11 @@
 package dev.arsngrobg.luam.parser;
 
+import java.util.Objects;
+
 public record LuaSourcePosition(int line, int column) {
     public LuaSourcePosition {
-        if (line < 0) {
-            throw new IllegalArgumentException("line componenent must be unsigned");
-        }
-        if (column < 0) {
-            throw new IllegalArgumentException("column component must be unsigned");
-        }
+        Objects.requireNonNull(line,   "LuaSourcePosition line cannot be NULL");
+        Objects.requireNonNull(column, "LuaSourcePosition column cannot be NULL");
     }
 
     @Override

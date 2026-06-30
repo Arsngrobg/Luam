@@ -20,5 +20,11 @@ public enum LuaTokenKind {
     EQ, NEQ, LTE, GTE, LT, GT, ASSIGN,
 
     // Delimiters
-    LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK
+    COMMA,  DOT,
+    LPAREN, RPAREN,
+    LBRACE, RBRACE,
+    LBRACK, RBRACK,
+
+    // Illegal
+    ILLEGAL
 }
