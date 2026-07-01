@@ -1,5 +1,5 @@
 # Luam */luːm/*
-An **ahead-of-time (AOT)** compiler for Minecraft datapacks, using Lua 5.1 as the language frontend.
+An **ahead-of-time (AOT)** Lua compiler for Minecraft datapacks, using Lua 5.1 as the language frontend.
 
 ## Writing Datapacks by Hand Can Be Annoying
 - You are restricted to Minecraft's command syntax
