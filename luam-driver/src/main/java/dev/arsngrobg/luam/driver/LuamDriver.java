@@ -4,16 +4,9 @@ import dev.arsngrobg.luam.parser.*;
 
 public final class LuamDriver {
     public static void main(String[] args) {
-        for (LuaTokenKind tknKind : LuaTokenKind.values()) {
-            System.err.printf("%s\n", tknKind.toString().toLowerCase());
-        }
-
-        LuaSourcePosition pos = new LuaSourcePosition(0, 0);
-        System.out.println(pos);
-
-        LuaTokenizer tokenizer = new LuaTokenizer("and.or.local.+-,==");
-        for (LuaToken token : tokenizer) {
-            System.out.println(token);
-        }
+        LuaSource src1 = LuaSource.ofFile("../examples/1-hello-world.lua").orElseThrow();
+        LuaSource src2 = LuaSource.ofFile("../examples/2-arithmetic.lua").orElseThrow();
+        System.out.println(src1);
+        System.out.println(src2);
     }
 }
