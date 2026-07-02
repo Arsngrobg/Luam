@@ -34,7 +34,6 @@ public final class LuaSource {
     private final byte[] bytes;
     private final int[]  lineLookup;
 
-    private final LuaSourcePosition start = new LuaSourcePosition(0, 0);
     private final LuaSourcePosition eof;
 
     private LuaSource(byte[] bytes) {
@@ -62,10 +61,6 @@ public final class LuaSource {
         Objects.requireNonNull(pos, "LuaSource::charAt pos cannot be NULL");
         int idx = lineLookup[pos.line()] + pos.column();
         return (char) bytes[idx];
-    }
-
-    public LuaSourcePosition start() {
-        return start;
     }
 
     public LuaSourcePosition eof() {
