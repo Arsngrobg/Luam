@@ -1,11 +1,9 @@
 package dev.arsngrobg.luam.parser;
 
-import java.util.Objects;
-
 public record LuaSourcePosition(int line, int column) {
     public LuaSourcePosition {
-        Objects.requireNonNull(line,   "LuaSourcePosition line cannot be NULL");
-        Objects.requireNonNull(column, "LuaSourcePosition column cannot be NULL");
+        if (line   < 0) throw new IllegalArgumentException("LuaSourcePosition line cannot be NULL");
+        if (column < 0) throw new IllegalArgumentException("LuaSourcePosition column cannot be NULL");
     }
 
     @Override
