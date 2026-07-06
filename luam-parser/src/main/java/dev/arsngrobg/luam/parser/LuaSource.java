@@ -114,7 +114,7 @@ public final class LuaSource implements Iterable<Character> {
 
     @Override
     public int hashCode() {
-        return bytes.hashCode();
+        return Arrays.hashCode(bytes);
     }
 
     @Override
