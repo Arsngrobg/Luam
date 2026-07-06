@@ -2,6 +2,9 @@ package dev.arsngrobg.luam.parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -12,7 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
-public final class LuaSource implements Iterable<Character> {
+public final class LuaSource implements CharSequence, Iterable<Character>, Serializable {
     public static Optional<LuaSource> ofFile(String filepath) {
         Objects.requireNonNull(filepath, "filepath cannot be NULL");
 
@@ -32,14 +35,13 @@ public final class LuaSource implements Iterable<Character> {
     }
 
     private final byte[] bytes;
-
-    private final int[] lineOffsets;
+    private final int[]  lineOffsets;
 
     public LuaSource(byte[] bytes) {
         this.bytes = Objects.requireNonNull(bytes, "bytes cannot be NULL");
 
         List<Integer> buffer = new ArrayList<>(List.of(0));
-        for (int idx = 0; idx < byteCount(); idx++) {
+        for (int idx = 0; idx < length(); idx++) {
             char ch = (char) bytes[idx];
             if (ch == '\n') {
                 buffer.add(idx+1);
@@ -48,14 +50,28 @@ public final class LuaSource implements Iterable<Character> {
         lineOffsets = buffer.stream().mapToInt(Integer::valueOf).toArray();
     }
 
+    @Override
+    public CharSequence subSequence(int start, int end) {
+        if (start == 0 && end == length()-1) {
+            return this;
+        }
+
+        byte[] subsequence = Arrays.copyOfRange(bytes, start, end);
+        return new LuaSource(subsequence);
+    }
+
     public char charAt(LuaSourcePosition position) {
         Objects.requireNonNull(position, "position cannot be NULL");
-
         if (position.column() > columnCountForLine(position.line())) {
             throw new IndexOutOfBoundsException("column position is out of bounds");
         }
 
-        return (char) bytes[lineOffsets[position.line()] + position.column()];
+        return charAt(lineOffsets[position.line()] + position.column());
+    }
+
+    @Override
+    public char charAt(int index) {
+        return (char) bytes[index];
     }
 
     public String getContent() {
@@ -83,7 +99,8 @@ public final class LuaSource implements Iterable<Character> {
         return lineOffsets.length;
     }
 
-    public int byteCount() {
+    @Override
+    public int length() {
         return bytes.length;
     }
 
@@ -107,7 +124,7 @@ public final class LuaSource implements Iterable<Character> {
 
             @Override
             public boolean hasNext() {
-                return idx != byteCount();
+                return idx != length();
             }
         };
     }
@@ -128,6 +145,6 @@ public final class LuaSource implements Iterable<Character> {
 
     @Override
     public String toString() {
-        return String.format("LuaSource[SIZE=%dB,LINES=%d]", byteCount(), lineCount());
+        return String.format("LuaSource[SIZE=%dB,LINES=%d]", length(), lineCount());
     }
 }
