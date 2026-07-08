@@ -23,8 +23,5 @@ public enum LuaTokenKind {
     COMMA,  DOT,
     LPAREN, RPAREN,
     LBRACE, RBRACE,
-    LBRACK, RBRACK,
-
-    // Illegal
-    ILLEGAL
+    LBRACK, RBRACK
 }
