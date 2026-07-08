@@ -2,7 +2,6 @@ package dev.arsngrobg.luam.parser;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
-public final class LuaSource implements CharSequence, Iterable<Character>, Serializable {
+public final class LuaSource implements CharSequence, Iterable<Character> {
     public static Optional<LuaSource> ofFile(String filepath) {
         Objects.requireNonNull(filepath, "filepath cannot be NULL");
 
@@ -33,7 +32,7 @@ public final class LuaSource implements CharSequence, Iterable<Character>, Seria
     }
 
     private final byte[] bytes;
-    private final int[]  lineOffsets;
+    private final int[]  lineIndex;
 
     public LuaSource(byte[] bytes) {
         this.bytes = Objects.requireNonNull(bytes, "bytes cannot be NULL");
@@ -45,7 +44,7 @@ public final class LuaSource implements CharSequence, Iterable<Character>, Seria
                 buffer.add(idx+1);
             }
         }
-        lineOffsets = buffer.stream().mapToInt(Integer::valueOf).toArray();
+        lineIndex = buffer.stream().mapToInt(Integer::valueOf).toArray();
     }
 
     @Override
@@ -58,18 +57,41 @@ public final class LuaSource implements CharSequence, Iterable<Character>, Seria
         return new LuaSource(subsequence);
     }
 
+    public boolean stringAt(String substring, LuaSourcePosition position) {
+        Objects.requireNonNull(substring, "substring cannot be NULL");
+        Objects.requireNonNull(position,  "position cannot be NULL");
+
+        return stringAt(substring, transformPositionToIndex(position));
+    }
+
+    public boolean stringAt(String substring, int idx) {
+        Objects.requireNonNull(substring, "substring cannot be NULL");
+        if (idx < 0)        throw new IllegalArgumentException("idx must be unsigned");
+        if (idx > length()) throw new IndexOutOfBoundsException(String.format("idx is out of bounds for length %d", length()));
+
+        for (int window = idx; window < Math.min(idx+substring.length(), length()); window++) {
+            char sourceChar    = charAt(window);
+            char substringChar = substring.charAt(window-idx);
+            if (sourceChar != substringChar) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public char charAt(LuaSourcePosition position) {
         Objects.requireNonNull(position, "position cannot be NULL");
         if (position.column() > columnCountForLine(position.line())) {
             throw new IndexOutOfBoundsException("column position is out of bounds");
         }
 
-        return charAt(lineOffsets[position.line()] + position.column());
+        return charAt(transformPositionToIndex(position));
     }
 
     @Override
-    public char charAt(int index) {
-        return (char) bytes[index];
+    public char charAt(int idx) {
+        return (char) bytes[idx];
     }
 
     public String getContent() {
@@ -80,21 +102,42 @@ public final class LuaSource implements CharSequence, Iterable<Character>, Seria
         return buffer.toString();
     }
 
-    public LuaSourcePosition eof() {
-        return new LuaSourcePosition(lineCount(), columnCountForLine(lineCount()-1));
+    public int transformPositionToIndex(LuaSourcePosition position) {
+        Objects.requireNonNull(position, "position cannot be NULL");
+        return lineIndex[position.line()] + position.column();
+    }
+
+    public LuaSourcePosition transformIndexToPosition(int idx) {
+        if (idx <  0)        throw new IllegalArgumentException("idx must be unsigned");
+        if (idx >= length()) throw new IndexOutOfBoundsException(String.format("idx is out of bounds for length %d", length()));
+
+        int line = Arrays.binarySearch(lineIndex, idx);
+        if (line < 0) {
+            line = -line - 2;
+        }
+
+        return new LuaSourcePosition(line, columnCountForLine(line));
     }
 
     public int columnCountForLine(int line) {
         if (line <  0)           throw new IllegalArgumentException("line must be unsigned");
         if (line >= lineCount()) throw new IndexOutOfBoundsException("line is out of bounds");
 
-        int offset = lineOffsets[line];
-        int next   = (line == (lineCount()-1)) ? bytes.length : lineOffsets[line+1];
+        int offset = lineIndex[line];
+        int next   = (line == (lineCount()-1)) ? bytes.length : lineIndex[line+1];
         return next - offset;
     }
 
+    public boolean isEOF(int idx) {
+        return idx == length()-1;
+    }
+
+    public LuaSourcePosition eof() {
+        return new LuaSourcePosition(lineCount(), columnCountForLine(lineCount()-1));
+    }
+
     public int lineCount() {
-        return lineOffsets.length;
+        return lineIndex.length;
     }
 
     @Override
@@ -114,7 +157,7 @@ public final class LuaSource implements CharSequence, Iterable<Character>, Seria
             @Override
             public Character next() {
                 if (!hasNext()) {
-                    throw new NoSuchElementException("LuaSourceIterator reached end of byte buffer");
+                    throw new NoSuchElementException("reached end of byte buffer");
                 }
 
                 return (char) bytes[idx++];

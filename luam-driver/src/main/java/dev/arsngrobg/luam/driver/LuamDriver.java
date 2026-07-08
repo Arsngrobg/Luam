@@ -9,5 +9,6 @@ public final class LuamDriver {
 
         System.out.println(src.charAt(new LuaSourcePosition(2, 10)));
         System.out.println(src.eof());
+        System.out.println(src.stringAt("local x", new LuaSourcePosition(2, 0)));
     }
 }
