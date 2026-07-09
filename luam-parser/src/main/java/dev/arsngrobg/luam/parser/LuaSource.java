@@ -95,11 +95,7 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
     }
 
     public String getContent() {
-        StringBuilder buffer = new StringBuilder();
-        for (char ch : this) {
-            buffer.append(ch);
-        }
-        return buffer.toString();
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 
     public int transformPositionToIndex(LuaSourcePosition position) {
@@ -111,6 +107,8 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
         if (idx <  0)        throw new IllegalArgumentException("idx must be unsigned");
         if (idx >= length()) throw new IndexOutOfBoundsException(String.format("idx is out of bounds for length %d", length()));
 
+        // if line is negative, it is the hypothetical index that it would have if it were inserted into the array
+        // so, invert it and subtract 1 to get the line it belongs
         int line = Arrays.binarySearch(lineIndex, idx);
         if (line < 0) {
             line = -line - 2;
@@ -126,6 +124,10 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
         int offset = lineIndex[line];
         int next   = (line == (lineCount()-1)) ? bytes.length : lineIndex[line+1];
         return next - offset;
+    }
+
+    public boolean isEOF(LuaSourcePosition position) {
+        return isEOF(transformPositionToIndex(position));
     }
 
     public boolean isEOF(int idx) {
