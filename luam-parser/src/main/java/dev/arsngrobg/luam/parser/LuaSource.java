@@ -57,17 +57,17 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
         return new LuaSource(subsequence);
     }
 
-    public boolean stringAt(String substring, LuaSourcePosition position) {
-        Objects.requireNonNull(substring, "substring cannot be NULL");
+    public boolean stringAt(LuaSourcePosition position, String substring) {
         Objects.requireNonNull(position,  "position cannot be NULL");
+        Objects.requireNonNull(substring, "substring cannot be NULL");
 
-        return stringAt(substring, transformPositionToIndex(position));
+        return stringAt(transformPositionToIndex(position), substring);
     }
 
-    public boolean stringAt(String substring, int idx) {
-        Objects.requireNonNull(substring, "substring cannot be NULL");
+    public boolean stringAt(int idx, String substring) {
         if (idx < 0)        throw new IllegalArgumentException("idx must be unsigned");
         if (idx > length()) throw new IndexOutOfBoundsException(String.format("idx is out of bounds for length %d", length()));
+        Objects.requireNonNull(substring, "substring cannot be NULL");
 
         for (int window = idx; window < Math.min(idx+substring.length(), length()); window++) {
             char sourceChar    = charAt(window);
