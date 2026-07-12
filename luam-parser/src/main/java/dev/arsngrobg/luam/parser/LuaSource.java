@@ -67,7 +67,6 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
     public boolean stringAt(int idx, String substring) {
         if (idx < 0)        throw new IllegalArgumentException("idx must be unsigned");
         if (idx > length()) throw new IndexOutOfBoundsException(String.format("idx is out of bounds for length %d", length()));
-        Objects.requireNonNull(substring, "substring cannot be NULL");
 
         for (int window = idx; window < Math.min(idx+substring.length(), length()); window++) {
             char sourceChar    = charAt(window);
