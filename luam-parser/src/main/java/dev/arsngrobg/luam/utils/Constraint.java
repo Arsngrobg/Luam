@@ -11,6 +11,13 @@ public final class Constraint<T> {
         return constraint.check(i);
     }
 
+    public static <T> T notNull(T obj) {
+        Constraint<T> constraint = new Constraint<>(o -> o != null,
+            new NullPointerException("must not be NULL")
+        );
+        return constraint.check(obj);
+    }
+
     private final Predicate<T>     predicate;
     private final RuntimeException toThrowOnFailure;
 
