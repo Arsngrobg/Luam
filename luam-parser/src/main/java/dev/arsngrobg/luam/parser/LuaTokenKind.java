@@ -121,7 +121,27 @@ public enum LuaTokenKind {
      * <p>
      * <i>Reference: <a href="https://www.lua.org/pil/2.2.html">PIL - Booleans</a></i>
      */
-    FALSE,    FOR,      FUNCTION,
+    FALSE,
+    /**
+     * The literal Lua keyword {@code for}.
+     *
+     * <p>
+     * Denotes the beginning of a numeric or <b>iterator</b>-based loop.
+     *
+     * <p>
+     * <i>Reference: <a href="https://www.lua.org/pil/4.3.4.html">PIL - Numeric For</a></i>
+     */
+    FOR,
+    /**
+     * The literal Lua keyword {@code function}.
+     *
+     * <p>
+     * Abstracts and localises a block of code using scoped variables.
+     *
+     * <p>
+     * <i>Reference: <a href="https://www.lua.org/pil/4.3.4.html">PIL - Functions</a></i>
+     */
+    FUNCTION,
     /**
      * The literal Lua keyword {@code if}.
      *
