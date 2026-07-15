@@ -5,7 +5,7 @@ import java.util.Objects;
 import dev.arsngrobg.luam.utils.Constraint;
 
 /**
- * A two-dimensional coordinate system based on a line and source in a {@link LuaSource}.
+ * A two-dimensional coordinate system based on a line and column in a {@link LuaSource}.
  */
 public final class LuaSourcePosition {
     private final int line;
