@@ -26,7 +26,7 @@ An **ahead-of-time (AOT)** Lua compiler for Minecraft datapacks, using Lua 5.1 a
 See below on how to get started with Luam.
 
 ### 1. How to Install
-- Go to the releases **[TODO]** page
+- Go to the releases **[releases](https://github.com/Arsngrobg/Luam/releases)** page
 - Download the compiled JAR file
 - Place the JAR in a location of your choosing
 - Add the path of the JAR into your PATH (optional)
