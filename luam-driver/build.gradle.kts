@@ -1,5 +1,6 @@
 plugins {
     application
+    alias(libs.plugins.kotlin.jvm)
 }
 
 dependencies {
@@ -8,5 +9,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("dev.arsngrobg.luam.driver.LuamDriver")
+    mainClass = "dev.arsngrobg.luam.LuamDriverKt"
 }
