@@ -1,16 +1,17 @@
 # IDES & TEXT EDITORS
-.idea
-.vscode
-.zed
+.idea/
+.vscode/
+.zed/
 .project
 .classpath
 .settings
 # feel free to add more - want editor agnostic project
 
 # GRADLE
-.gradle
-.kotlin
-build
+.gradle/
+.kotlin/
+build/
 
 # COMPILER OUTPUT
 *.class
+*.jar
