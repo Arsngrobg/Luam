@@ -19,30 +19,30 @@ public final class LuaSourcePosition {
     /**
      * The {@code line} property <b>(unsigned)</b>
      */
-    public int line() {
+    public int getLine() {
         return line;
     }
 
     /**
      * The {@code column} property <b>(unsigned)</b>
      */
-    public int column() {
+    public int getColumn() {
         return column;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(line(), column());
+        return Objects.hash(getLine(), getColumn());
     }
 
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof LuaSourcePosition pos)
-          &&   (line() == pos.line() && column() == pos.column());
+          &&   (getLine() == pos.getLine() && getColumn() == pos.getColumn());
     }
 
     @Override
     public String toString() {
-        return "(%d,%d)".formatted(line(), column());
+        return "(%d,%d)".formatted(getLine(), getColumn());
     }
 }
