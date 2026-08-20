@@ -38,7 +38,9 @@ subprojects {
 }
 
 // PROJECTS (FROM TOP TO BOTTOM)
-project(":luam-parser") { /* The bottom of the hierarchy so nothing ever happens */ }
+project(":luam-parser") {
+    /* The bottom of the hierarchy so nothing ever happens */
+}
 
 project(":luam-codegen") {
     dependencies {
@@ -47,7 +49,6 @@ project(":luam-codegen") {
 }
 
 project(":luam-driver") {
-
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "application")
 

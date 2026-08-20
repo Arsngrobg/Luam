@@ -5,7 +5,7 @@ import dev.arsngrobg.luam.parser.LuaSourcePosition
 import kotlin.system.exitProcess
 
 fun main(argv: Array<String>) {
-    val src = LuaSource("local x = \"Hello, World!\"".toByteArray(Charsets.UTF_8))
+    val src = LuaSource.ofFile("./examples/1-hello-world.lua")
     println(src.eof)
     println(src.lastIndex)
 

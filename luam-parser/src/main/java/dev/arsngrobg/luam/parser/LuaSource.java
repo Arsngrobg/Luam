@@ -1,6 +1,9 @@
 package dev.arsngrobg.luam.parser;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -11,6 +14,33 @@ import java.util.Iterator;
  * Characters can be indexed via flat indices, or 2D line and column coordinates.
  */
 public final class LuaSource implements CharSequence, Iterable<Character> {
+    /**
+     * Creates a {@code LuaSource} from the contents of the supplied file.
+     *
+     * <i>Assumes file is stored in UTF-8 format.</i>
+     * @param filename the name of the file
+     * @return a {@code LuaSource} containing the bytes of the file
+     */
+    public static LuaSource ofFile(String filename) {
+        try {
+            return new LuaSource(Files.readAllBytes(Path.of(filename)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Creates a {@code LuaSource} from the raw string.
+     *
+     * <i>Assumes file is stored in UTF-8 format.</i>
+     * @param source the raw Lua source code
+     * @return a {@code LuaSource} containing the bytes of the string
+     */
+    public static LuaSource ofString(String source) {
+        return new LuaSource(source.getBytes(StandardCharsets.UTF_8));
+    }
+
     private final byte[] bytes;
     private final int[]  index;
 
@@ -68,9 +98,7 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
     }
 
     /**
-     * Converts this source into a UTF-8 string.
-     *
-     * @return
+     * This {@code LuaSource} as a UTF-8 encoded string.
      */
     public String getContent() {
         return new String(bytes, StandardCharsets.UTF_8);
