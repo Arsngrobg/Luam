@@ -13,6 +13,7 @@ An **ahead-of-time (AOT)** Lua compiler for Minecraft datapacks, using Lua 5.1 a
 - Data is treated as code
 
 ## Why Lua?
+- Lua is designed in a way such that it is simple to understand.
 - Lua is *easy to parse*, it has a very disambiguous syntax.
 - Lua is known for being embedded in host-applications (e.g. NeoVim, Garry's Mod, Roblox)
 - Lua tables align with how data is represented in Minecraft
