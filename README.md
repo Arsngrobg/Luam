@@ -130,6 +130,9 @@ A list if each optimization level, and what each enables, are listed below.
 
 **Optimization levels are cumulative.**
 
+## The Standard Library
+For now, Luam will not suppport any of the Lua 5.1 standard library.
+
 ### References
 - https://www.lua.org/about.html
 - https://www.lua.org/manual/5.1/manual.html
