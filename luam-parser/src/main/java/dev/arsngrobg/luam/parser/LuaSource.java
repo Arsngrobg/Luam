@@ -1,58 +1,60 @@
 package dev.arsngrobg.luam.parser;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
- * A UTF-8 encoded character buffer that assumes all bytes are valid Lua characters.
+ * An 8-bit clean buffer of bytes containing Lua source code.
  *
  * Characters can be indexed via flat indices, or 2D line and column coordinates.
  */
 public final class LuaSource implements CharSequence, Iterable<Character> {
     /**
-     * Creates a {@code LuaSource} from the contents of the supplied file.
+     * Creates a {@code LuaSource} consisting of the data within the file.
+     * @param filename the file to read
      *
-     * <i>Assumes file is stored in UTF-8 format.</i>
-     * @param filename the name of the file
-     * @return a {@code LuaSource} containing the bytes of the file
+     * @return a {@code LuaSource} mapped in from the file
+     * @throws IOException if the file described by {@code filename} cannot be opened
      */
-    public static LuaSource ofFile(String filename) {
-        try {
-            return new LuaSource(Files.readAllBytes(Path.of(filename)));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+    public static LuaSource ofFile(String filename) throws IOException {
+        try (FileChannel channel = FileChannel.open(Path.of(filename), StandardOpenOption.READ)) {
+            long fileSize = channel.size();
+            if (fileSize > Integer.MAX_VALUE) {
+                throw new IOException("File size cannot exceed 2GB");
+            }
+
+            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+            return new LuaSource(buffer);
         }
     }
 
     /**
      * Creates a {@code LuaSource} from the raw string.
-     *
-     * <i>Assumes file is stored in UTF-8 format.</i>
      * @param source the raw Lua source code
      * @return a {@code LuaSource} containing the bytes of the string
      */
-    public static LuaSource ofString(String source) {
-        return new LuaSource(source.getBytes(StandardCharsets.UTF_8));
+    public static LuaSource of(String code) {
+        return new LuaSource(ByteBuffer.wrap(Objects.requireNonNull(code).getBytes()));
     }
-
-    private final byte[] bytes;
-    private final int[]  index;
 
     private final LuaSourcePosition EOF;
 
-    public LuaSource(byte[] bytes) {
-        this.bytes = bytes;
+    private final ByteBuffer bytes;
+    private final int[]      index;
+
+    public LuaSource(ByteBuffer bytes) {
+        this.bytes = Objects.requireNonNull(bytes).asReadOnlyBuffer();
         this.index = new ArrayList<Integer>() {{
             add(0);
-            for (int idx = 0; idx < bytes.length; idx++) {
-                char ch = (char) bytes[idx];
-                if (ch == '\n') add(idx + 1);
+            for (int idx = 0; idx < length(); idx++) {
+                if (charAt(idx) == '\n') add(idx);
             }
         }}.stream().mapToInt(i -> i).toArray();
         this.EOF = new LuaSourcePosition(
@@ -75,9 +77,9 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
 
     @Override
     public CharSequence subSequence(int start, int end) {
-        return (start == 0 && end == length())
-          ?    this
-          :    new LuaSource(Arrays.copyOfRange(bytes, start, end));
+        return (start != 0 && end != length())
+           ?   new LuaSource(bytes.slice(start, end - start))
+           :   this;
     }
 
     /**
@@ -92,16 +94,16 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
 
     @Override
     public char charAt(int index) {
-        return (0 > index || index >= length())
-           ?   '\0'
-           :   ((char) bytes[index]);
+        return (0 <= index && index < length())
+           ?   ((char) bytes.get(index))
+           :   '\0';
     }
 
     /**
-     * This {@code LuaSource} as a UTF-8 encoded string.
+     * The actual string content of this {@code LuaSource}.
      */
     public String getContent() {
-        return new String(bytes, StandardCharsets.UTF_8);
+        return new String(bytes.array());
     }
 
     /**
@@ -120,16 +122,90 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
 
     @Override
     public int length() {
-        return bytes.length;
+        return bytes.limit();
     }
 
     @Override
-    public Iterator<Character> iterator() {
-        return getContent().chars().mapToObj(c -> (char) c).iterator();
+    public java.util.Iterator<Character> iterator() {
+        return new LuaSource.Iterator(this);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(bytes);
+        return bytes.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof LuaSource src)
+          &&   (bytes.equals(src.bytes));
+    }
+
+    @Override
+    public String toString() {
+        return "LuaSource[size=%dB lines=%d]".formatted(length(), getLineCount());
+    }
+
+    /**
+     * The standard {@link java.util.Iterator} for a {@link LuaSource}.
+     */
+    public static final class Iterator implements java.util.Iterator<Character> {
+        private final LuaSource target;
+
+        private int position = 0;
+
+        private Iterator(LuaSource target) {
+            this.target = Objects.requireNonNull(target);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return getPosition() != getLimit();
+        }
+
+        @Override
+        public Character next() {
+            if (!hasNext()) throw new NoSuchElementException("Reached EOF");
+
+            return getTarget().charAt(position++);
+        }
+
+        /**
+         * The limit of this iterator <b>(unsigned)</b>.
+         */
+        public int getLimit() {
+            return getTarget().length();
+        }
+
+        /**
+         * The current position of this iterator <b>(unsigned)</b>.
+         */
+        public int getPosition() {
+            return position;
+        }
+
+        /**
+         * This iterator's target {@link LuaSource} object.
+         */
+        public LuaSource getTarget() {
+            return target;
+        }
+
+        @Override
+        public int hashCode() {
+            return getTarget().hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return (obj instanceof LuaSource.Iterator iter)
+              &&   (getTarget().equals(iter.getTarget()))
+              &&   (getPosition() == iter.getPosition());
+        }
+
+        @Override
+        public String toString() {
+            return "LuaSource.Iterator[position=%d]".formatted(position);
+        }
     }
 }
