@@ -38,9 +38,7 @@ subprojects {
 }
 
 // PROJECTS (FROM TOP TO BOTTOM)
-project(":luam-parser") {
-    /* The bottom of the hierarchy so nothing ever happens */
-}
+project(":luam-parser")
 
 project(":luam-codegen") {
     dependencies {
@@ -53,6 +51,7 @@ project(":luam-driver") {
     apply(plugin = "application")
 
     dependencies {
+        add("implementation", "com.github.ajalt.clikt:clikt:5.0.1")
         add("implementation", project(":luam-parser"))
         add("implementation", project(":luam-codegen"))
     }
