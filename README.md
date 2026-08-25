@@ -1,28 +1,6 @@
 # Luam */luːm/*
 An **ahead-of-time (AOT)** Lua compiler for Minecraft datapacks, using Lua 5.1 as the language frontend.
 
-## Writing Datapacks by Hand Can Be Annoying
-- You are restricted to Minecraft's command syntax
-- No direct support for iteration
-- No direct support for structured data
-- Control flow is supported, but only through callback functions
-- No call stack
-- Global mutable state
-- A single "block" or unit of code must be within its own `.mcfunction` file
-- For advanced projects, they become amalgamations of `.mcfunction` and `.json` files
-- Data is treated as code
-
-## Why Lua?
-- Lua is designed in a way such that it is simple to understand.
-- Lua is *easy to parse*, it has a very disambiguous syntax.
-- Lua is known for being embedded in host-applications (e.g. NeoVim, Garry's Mod, Roblox)
-- Lua tables align with how data is represented in Minecraft
-
-## Similar Projects
-- [Beet](https://mcbeet.dev) - a data-driven Python *"development kit"* for creating datapacks
-- [Sandstone](https://sandstone.dev) - a Typescript datapack library
-- [ObjD](https://objd.stevertus.com) - a framework for developing datapacks in the Dart programming language
-
 ## Getting Started
 See below on how to get started with Luam.
 
@@ -132,6 +110,28 @@ A list if each optimization level, and what each enables, are listed below.
 
 ## The Standard Library
 For now, Luam will not suppport any of the Lua 5.1 standard library.
+
+## Writing Datapacks by Hand Can Be Annoying
+- You are restricted to Minecraft's command syntax
+- No direct support for iteration
+- No direct support for structured data
+- Control flow is supported, but only through callback functions
+- No call stack
+- Global mutable state
+- A single "block" or unit of code must be within its own `.mcfunction` file
+- For advanced projects, they become amalgamations of `.mcfunction` and `.json` files
+- Data is treated as code
+
+## Why Lua?
+- Lua is designed in a way such that it is simple to understand.
+- Lua is *easy to parse*, it has a very disambiguous syntax.
+- Lua is known for being embedded in host-applications (e.g. NeoVim, Garry's Mod, Roblox)
+- Lua tables align with how data is represented in Minecraft
+
+## Similar Projects
+- [Beet](https://mcbeet.dev) - a data-driven Python *"development kit"* for creating datapacks
+- [Sandstone](https://sandstone.dev) - a Typescript datapack library
+- [ObjD](https://objd.stevertus.com) - a framework for developing datapacks in the Dart programming language
 
 ### References
 - https://www.lua.org/about.html
