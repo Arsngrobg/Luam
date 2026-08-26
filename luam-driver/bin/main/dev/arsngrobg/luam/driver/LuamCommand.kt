@@ -12,7 +12,7 @@ import dev.arsngrobg.luam.parser.*
 object TODO {
     const val LUAM_VERSION         = "1.0"
     const val DEFAULT_ARCHIVE_NAME = "dinnerbone" // funny minecraft easter egg haha
-    const val LATEST_FORMAT        = 48           // will use latest version by default
+    const val LATEST_FORMAT        = 48u          // will use latest version by default
 }
 
 class LuamCommand : CliktCommand("luam") {
@@ -47,7 +47,7 @@ class LuamCommand : CliktCommand("luam") {
         by option("--description")
                .help("Tags the datapack with this description")
 
-    val format: Pair<UInt, UInt>?
+    val format: Pair<UInt, UInt>
         by option("--format")
                .convert { fmts ->
                    val pairs = fmts.split(",").map {
@@ -60,6 +60,7 @@ class LuamCommand : CliktCommand("luam") {
                        else -> fail("Format arg must be given in a pair")
                    }
                }
+              .default(Pair(TODO.LATEST_FORMAT, TODO.LATEST_FORMAT))
               .help("Specifies the format of the datapack")
 
     init {
