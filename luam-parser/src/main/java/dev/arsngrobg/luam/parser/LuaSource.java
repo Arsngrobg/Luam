@@ -157,7 +157,7 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
         private int position = 0;
 
         private Iterator(LuaSource target) {
-            this.target = Objects.requireNonNull(target);
+            this.target = Constraint.notNull(target);
         }
 
         @Override
