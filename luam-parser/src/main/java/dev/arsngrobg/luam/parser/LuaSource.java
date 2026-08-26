@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+
+import io.vavr.Lazy;
 
 /**
  * An 8-bit clean buffer of bytes containing Lua source code.
@@ -103,7 +106,7 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
      * The actual string content of this {@code LuaSource}.
      */
     public String getContent() {
-        return new String(bytes.array());
+        return new String(StandardCharsets.ISO_8859_1.decode(bytes).array());
     }
 
     /**
