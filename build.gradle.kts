@@ -63,6 +63,6 @@ project(":luam-driver") {
     }
 
     extensions.configure<JavaApplication> {
-        mainClass.set("dev.arsngrobg.luam.driver.LuamDriverKt")
+        mainClass.set("dev.arsngrobg.luam.driver.LuamMainKt")
     }
 }
