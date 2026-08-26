@@ -73,7 +73,7 @@ class LuamCommand : CliktCommand("luam") {
         }
 
         repeat(files.size) { idx ->
-            echo(LuaSource.ofFile(files[idx].canonicalPath).content, trailingNewline = true)
+            echo(LuaSource.ofFile(files[idx].canonicalPath).content)
         }
     }
 }
