@@ -55,8 +55,8 @@ class LuamCommand : CliktCommand("luam") {
                    }
 
                    when (pairs.size) {
-                       1    -> Pair(pairs[0], pairs[0])
-                       2    -> Pair(pairs[0], pairs[1])
+                       1    -> pairs[0] to pairs[0]
+                       2    -> pairs[0] to pairs[1]
                        else -> fail("Format arg must be given in a pair")
                    }
                }
