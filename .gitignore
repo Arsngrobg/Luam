@@ -5,6 +5,7 @@
 .project
 .classpath
 .settings
+bin/
 # feel free to add more - want editor agnostic project
 
 # GRADLE
