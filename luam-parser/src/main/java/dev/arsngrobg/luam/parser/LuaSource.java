@@ -9,7 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import java.util.Objects;
+
+import dev.arsngrobg.luam.common.Constraint;
 
 /**
  * An 8-bit clean buffer of bytes containing Lua source code.
@@ -42,7 +43,7 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
      * @return a {@code LuaSource} containing the bytes of the string
      */
     public static LuaSource of(String code) {
-        return new LuaSource(ByteBuffer.wrap(Objects.requireNonNull(code).getBytes()));
+        return new LuaSource(ByteBuffer.wrap(Constraint.notNull(code).getBytes()));
     }
 
     private final LuaSourcePosition EOF;
@@ -51,7 +52,7 @@ public final class LuaSource implements CharSequence, Iterable<Character> {
     private final int[]      index;
 
     public LuaSource(ByteBuffer bytes) {
-        this.bytes = Objects.requireNonNull(bytes).asReadOnlyBuffer();
+        this.bytes = Constraint.notNull(bytes).asReadOnlyBuffer();
         this.index = new ArrayList<Integer>() {{
             add(0);
             for (int idx = 0; idx < length(); idx++) {
