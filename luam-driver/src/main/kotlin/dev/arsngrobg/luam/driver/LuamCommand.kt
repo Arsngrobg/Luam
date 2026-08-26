@@ -7,6 +7,8 @@ import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.*
 
+import dev.arsngrobg.luam.parser.*
+
 object TODO {
     const val LUAM_VERSION         = "1.0"
     const val DEFAULT_ARCHIVE_NAME = "dinnerbone" // funny minecraft easter egg haha
@@ -51,14 +53,14 @@ class LuamCommand : CliktCommand("luam") {
                    val pairs = fmts.split(",").map {
                        val asInt = it.trim()
                                      .toUIntOrNull()
-                                     ?:throw UsageError("Format arg must be an uint")
+                                     ?:fail("Format arg must be an uint")
                            asInt
                    }
 
                    when (pairs.size) {
                        1    -> Pair(pairs[0], pairs[0])
                        2    -> Pair(pairs[0], pairs[1])
-                       else -> throw UsageError("Format arg must be given in a pair")
+                       else -> fail("Format arg must be given in a pair")
                    }
                }
               .help("Specifies the format of the datapack")
@@ -73,7 +75,7 @@ class LuamCommand : CliktCommand("luam") {
         }
 
         repeat(files.size) { idx ->
-            echo(files[idx], trailingNewline = true)
+            echo(LuaSource.ofFile(files[idx].canonicalPath).content, trailingNewline = true)
         }
     }
 }
