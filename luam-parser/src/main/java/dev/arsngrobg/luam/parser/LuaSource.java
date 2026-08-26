@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import io.vavr.Lazy;
-
 /**
  * An 8-bit clean buffer of bytes containing Lua source code.
  *
