@@ -20,7 +20,7 @@ class LuamCommand : CliktCommand("luam") {
         by argument("file")
                .file(mustExist = true, canBeDir = false)
                .multiple()
-               .help("Suquence of Lua source files")
+               .help("Sequence of Lua source files")
 
     val outName: String
         by option("-o")
