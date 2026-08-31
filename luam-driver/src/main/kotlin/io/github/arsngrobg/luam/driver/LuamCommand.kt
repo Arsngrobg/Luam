@@ -22,9 +22,10 @@ class LuamCommand : CliktCommand("luam") {
                .multiple()
                .help("Sequence of Lua source files")
 
-    val outName: String
+    val outName: File
         by option("-o")
-               .default(TODO.DEFAULT_ARCHIVE_NAME)
+               .file(mustExist = false, canBeDir = false)
+               .default(File(TODO.DEFAULT_ARCHIVE_NAME))
                .help("The name of the output archive")
 
     val outImg: String?
