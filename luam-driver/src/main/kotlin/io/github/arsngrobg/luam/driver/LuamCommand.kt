@@ -60,7 +60,7 @@ class LuamCommand : CliktCommand("luam") {
                        else -> fail("Format arg must be given in a pair")
                    }
                }
-              .default(Pair(TODO.LATEST_FORMAT, TODO.LATEST_FORMAT))
+              .default(TODO.LATEST_FORMAT to TODO.LATEST_FORMAT)
               .help("Specifies the format of the datapack")
 
     init {
@@ -73,7 +73,14 @@ class LuamCommand : CliktCommand("luam") {
         }
 
         repeat(files.size) { idx ->
-            echo(LuaSource.ofFile(files[idx].canonicalPath).content)
+            val source = LuaSource.ofFile(files[idx])
+            echo(source)
+            for (char in source) {
+                echo(char, trailingNewline = false)
+            }
+            var pos = Pos(0, 42)
+            echo(source.toIndex(pos.line, pos.column))
+            echo(source[LuaSourcePosition(pos.line, pos.column)])
         }
     }
 }

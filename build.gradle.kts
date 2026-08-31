@@ -11,6 +11,7 @@ plugins {
 
 // GLOBAL CONFIGURATION
 subprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "java")
 
     configure<JavaPluginExtension> {
@@ -21,6 +22,12 @@ subprojects {
 
     tasks.withType<JavaCompile>().configureEach {
         options.release.set(25)
+    }
+
+    extensions.configure<KotlinJvmProjectExtension> {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_25)
+        }
     }
 
     repositories {
@@ -47,19 +54,12 @@ project(":luam-codegen") {
 }
 
 project(":luam-driver") {
-    apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "application")
 
     dependencies {
         add("implementation", "com.github.ajalt.clikt:clikt:5.0.1")
         add("implementation", project(":luam-parser"))
         add("implementation", project(":luam-codegen"))
-    }
-
-    extensions.configure<KotlinJvmProjectExtension> {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_25)
-        }
     }
 
     extensions.configure<JavaApplication> {
