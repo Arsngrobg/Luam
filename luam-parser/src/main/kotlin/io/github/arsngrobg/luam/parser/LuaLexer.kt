@@ -59,6 +59,7 @@ class LuaSource(private val bytes: ByteArray) : Iterable<Char> {
     val length:    Int = bytes.size
     val eof:       Pos = Pos(lineTotal - 1, bytes.size - lineIndices.last())
 
+    // TODO: looks ugly - maybe fix
     fun toIndex(line: Int, column: Int): Int {
         if (line !in lineIndices.indices) {
             return -1
