@@ -1,4 +1,4 @@
-package dev.arsngrobg.luam.common;
+package io.github.arsngrobg.luam.common;
 
 /**
  * A function that ensures a specific type {@code <T>} satisfies a given predicate to ensure safe usage.

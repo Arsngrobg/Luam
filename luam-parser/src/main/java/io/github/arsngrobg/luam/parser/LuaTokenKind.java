@@ -1,4 +1,4 @@
-package dev.arsngrobg.luam.parser;
+package io.github.arsngrobg.luam.parser;
 
 /**
  * The set of valid tokens in Lua.

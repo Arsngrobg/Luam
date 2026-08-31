@@ -1,4 +1,4 @@
-package dev.arsngrobg.luam.driver
+package io.github.arsngrobg.luam.driver
 
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.mordant.rendering.AnsiLevel

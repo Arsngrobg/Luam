@@ -1,4 +1,4 @@
-package dev.arsngrobg.luam.parser;
+package io.github.arsngrobg.luam.parser;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -10,7 +10,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import dev.arsngrobg.luam.common.Constraint;
+import io.github.arsngrobg.luam.common.Constraint;
 
 /**
  * An 8-bit clean buffer of bytes containing Lua source code.

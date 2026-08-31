@@ -1,4 +1,4 @@
-package dev.arsngrobg.luam.driver
+package io.github.arsngrobg.luam.driver
 
 import java.io.File
 
@@ -7,7 +7,7 @@ import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.*
 
-import dev.arsngrobg.luam.parser.*
+import io.github.arsngrobg.luam.parser.*
 
 object TODO {
     const val LUAM_VERSION         = "1.0"

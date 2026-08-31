@@ -1,8 +1,8 @@
-package dev.arsngrobg.luam.parser;
+package io.github.arsngrobg.luam.parser;
 
 import java.util.Objects;
 
-import dev.arsngrobg.luam.common.Constraint;
+import io.github.arsngrobg.luam.common.Constraint;
 
 /**
  * A 2-dimensional positional type that maps to a position in a Lua source file.
