@@ -59,20 +59,16 @@ class LuaSource(private val bytes: ByteArray) : Iterable<Char> {
     val length:    Int = bytes.size
     val eof:       Pos = Pos(lineTotal - 1, bytes.size - lineIndices.last())
 
-    // TODO: looks ugly - maybe fix
     fun toIndex(line: Int, column: Int): Int {
-        if (line !in lineIndices.indices) {
-            return -1
-        }
+        if (line !in lineIndices.indices) return -1
 
-        val idx = lineIndices[line] + column
-        if (idx !in bytes.indices) {
-            return -1
-        }
-        if (line >= lineIndices.lastIndex || idx >= lineIndices[line+1]) {
-            return -1
-        }
-        return idx
+        val index = lineIndices[line] + column
+        if (index !in bytes.indices) return -1
+
+        val nextLine = lineIndices.getOrNull(line + 1) ?: bytes.size
+        if (index >= nextLine) return -1
+
+        return index
     }
 
     operator fun get(pos: Pos): Char =
