@@ -82,31 +82,22 @@ You may want to also specify a maximum version:
 ## Compiler Optimizations
 To retain 100% parity with Lua 5.1, Luam optimizes tail calls as the Lua manual states it is a [feature of the language](https://www.lua.org/pil/6.3.html).
 
-But, by default, Luam makes no effort to optimize.
-The compiler always assumes an optimization level of `0`, unless specified otherwise.
-The `-O<level>` flag specifies the optimization level, with the maximum being level `3`.
-This is heavily inspired by the design of the GNU C Compiler (GCC).
+But, by default, Luam makes every effort to optimize.
 
 A list if each optimization level, and what each enables, are listed below.
 
-### Level 0 (`-O0`) **(Default)**
+The list of optimizations Luam performes are as follows:
 - Tail Call Optimization (TCO)
+- Algebraic Simplifications
+- Constant Folding
+- Constant Propagation
+- Dead Branch Elimination
+- Dead Code Elimination
+- Function Inlining
+- Static Loop Optimizations
 
-### Level 1 (`-O1`)
-- Constant Folding             (`-fconst-fold`)
-- Dead Branch Elimination      (`-fprune-dead`)
-- Algebraic Simplifications    (`-ffast-math`)
-- Function Inlining            (`-fsimple-inline`)
-    - *Functions in tail call are not inlined*
-
-### Level 2 (`-O2`)
-- Constant Propagation         (`-fconst-prop`)
-- Dead Code Elimination        (`-fremove-dead-code`)
-- Static Loop Optimizations    (`-floop-opt`)
-- Aggressive Function Inlining (`-faggressive-inline`)
-    - *Functions in tail call are not inlined*
-
-**Optimization levels are cumulative.**
+The `-debug` flag tells Luam to not optimize any Lua source code.
+The only exception to this rule is **TCO**.
 
 ## The Standard Library
 For now, Luam will not suppport any of the Lua 5.1 standard library.

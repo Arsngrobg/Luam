@@ -2,10 +2,20 @@ package io.github.arsngrobg.luam.driver
 
 import java.io.File
 
-import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parameters.arguments.*
-import com.github.ajalt.clikt.parameters.options.*
-import com.github.ajalt.clikt.parameters.types.*
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.arguments.help
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.help
+import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.convert
+import com.github.ajalt.clikt.parameters.options.versionOption
+import com.github.ajalt.clikt.parameters.types.uint
+import com.github.ajalt.clikt.parameters.types.file
+import com.github.ajalt.clikt.parameters.types.restrictTo
 
 import io.github.arsngrobg.luam.parser.*
 
@@ -37,12 +47,10 @@ class LuamCommand : CliktCommand("luam") {
                .flag()
                .help("Whether Luam should be verbose")
 
-    val optLvl: UInt
-        by option("-O")
-               .uint()
-               .restrictTo(0u, 2u)
-               .default(0u)
-               .help("The optimization level")
+    val debug: Boolean
+        by option("-debug")
+            .flag()
+            .help("Do not perform optimizations when compiling the source tree")
 
     val desc: String?
         by option("--description")
@@ -74,14 +82,7 @@ class LuamCommand : CliktCommand("luam") {
         }
 
         repeat(files.size) { idx ->
-            val source = LuaSource.ofFile(files[idx])
-            echo(source)
-            for (char in source) {
-                echo(char, trailingNewline = false)
-            }
-            var pos = Pos(0, 42)
-            echo(source.toIndex(pos.line, pos.column))
-            echo(source[LuaSourcePosition(pos.line, pos.column)])
+            echo(files[idx].name)
         }
     }
 }
