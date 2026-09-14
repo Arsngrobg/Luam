@@ -34,6 +34,10 @@ subprojects {
         mavenCentral()
     }
 
+    dependencies {
+        add("implementation", "org.jetbrains.kotlinx:kotlinx-io-core:0.9.1")
+    }
+
     tasks.named<Jar>("jar") {
         manifest {
             attributes(
