@@ -2,7 +2,7 @@ import org.gradle.api.plugins.JavaApplication
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-val LUAM_VERSION = "1.0.0"
+val LUAM_VERSION = providers.gradleProperty("luam.version").get()
 val BUILD_TIME   = java.time.Instant.now().toString()
 
 plugins {
