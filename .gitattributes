@@ -1,3 +1,20 @@
+#
+#    |    |  |  /\   |\/|
+#   |___ \__/ /~~\  |  |
+#
+#   The Luam project .gitattributes
+#   Licensed under the GNU GPLv3
+
+# All
+* text=auto
+
+# Linux/MacOS shell scripts
 /gradlew        text eol=lf
+*.sh            text eol=lf
+
+# Windows shell scripts
 *.bat           text eol=crlf
+*.cmd           text eol=crlf
+
+# Binaries
 *.jar           binary
