@@ -1,10 +1,10 @@
 # Luam */luːm/*
 An **ahead-of-time (AOT)** Lua compiler for Minecraft datapacks, using Lua 5.1 as the language frontend.
 
-# NOTICE
-Current development is on 1.15, as it introduced the `/storage` command.
-This simplifies many headaches in the early stages of development.
-Work will be done in the future to be backwards compatible until **1.13** (introduction of datapacks).
+> [!NOTE]
+> Current development is on 1.15, as it introduced the `/storage` command.
+> This simplifies many headaches in the early stages of development.
+> Work will be done in the future to be backwards compatible until **1.13** (introduction of datapacks).
 
 ## Getting Started
 See below on how to get started with Luam.
