@@ -2,7 +2,7 @@
 An **ahead-of-time (AOT)** Lua compiler for Minecraft datapacks, using Lua 5.1 as the language frontend.
 
 > [!NOTE]
-> Current development is on 1.15, as it introduced the `/storage` command.
+> Current development is on 1.15, as it introduced the `/data ... storage` subcommand.
 > This simplifies many headaches in the early stages of development.
 > Work will be done in the future to be backwards compatible until **1.13** (introduction of datapacks).
 
