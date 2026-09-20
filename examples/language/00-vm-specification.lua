@@ -2,12 +2,8 @@
 
 -- the virtual machine consists of:
 --  REGISTERS (`/scoreboard`):
---   |- $max (2 arithmetic storage 32-bit registers)
---      |- $mah = Memory Accumulator High
---      |- $mal = Memory Accumulator Low
---   |- $mgx (2 general purpose 32-bit registers)
---      |- $mgh = Memory General Low
---      |- $mgl = Memory General High
+--   |- $max = Memory Accumulator (primary arithmetic register)
+--   |- $mgx = Memory General (general purpose register)
 --   |- $mcx = Memory Counter Register (loops)
 --   |- $msp = Memory Stack Pointer
 --  PREFIXES:
@@ -17,25 +13,29 @@
 --  STACK (`/data ... storage`):
 --   |- NBT array that grows and shrinks in size
 --   |- the $msp controls where the "top" is
+--   |- is the call stack for function calls
+--   |- stack frames are reused whenever TCO is possible
 
 --  MEMORY/ (`/data ... storage`):
---   |- NBT key/value data
---   |- interned strings
---   |- (escaped) variables
+--   |- luam garbage collector manages this region
+--   |- each object gets its own integer ID
+--      |- maximum number of objects in a single moment is 4,294,967,295
+--      |- your computer will run out of memory before we reach that limit
+--   |- two primary NBT entries:
+--      |- object pool        -> lua tables, strings
+--      |- relationship table -> variable identifiers that index into the object pool
 
 -- TESTING (.mcfunction):
 --  REGISTERS:
 --   /scoreboard objectives luamvm_reg dummy
 --   /scoreboard setdisplay sidebar luamreg
---   /scoreboard players set $mah luamvm_reg 0
---   /scoreboard players set $mal luamvm_reg 0
---   /scoreboard players set $mgh luamvm_reg 0
---   /scoreboard players set $mgl luamvm_reg 0
+--   /scoreboard players set $max luamvm_reg 0
+--   /scoreboard players set $mgx luamvm_reg 0
 --   /scoreboard players set $mcx luamvm_reg 0
 --   /scoreboard players set $msp luamvm_reg 0
 
---  STACK, MEMORY:
---   /data merge storage luamvm:<namespace> {"stack":[],"mem":{"pool":[],"heap":{}}}
+--  STACK, MEMORY, OBJECT POOLING:
+--   /data merge storage luamvm:<namepace> {"stack":[I;],"mem":{"objs":{},"rel":{}}}
 
 --  PERSISTENT MEMORY:
 --   /data merge storage <namespace>:data {}
