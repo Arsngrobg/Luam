@@ -16,26 +16,26 @@
 --   |- is the call stack for function calls
 --   |- stack frames are reused whenever TCO is possible
 
---  MEMORY/ (`/data ... storage`):
+--  MEMORY (`/data ... storage`):
 --   |- luam garbage collector manages this region
 --   |- each object gets its own integer ID
---      |- maximum number of objects in a single moment is 4,294,967,295
---      |- your computer will run out of memory before we reach that limit
+--      \- maximum number of objects in a single moment is 4,294,967,295
+--      \- your computer will run out of memory before we reach that limit
 --   |- two primary NBT entries:
---      |- object pool        -> lua tables, strings
---      |- relationship table -> variable identifiers that index into the object pool
+--      \- object pool        -> lua tables, strings
+--      \- relationship table -> variable identifiers that index into the object pool
 
 -- TESTING (.mcfunction):
 --  REGISTERS:
---   /scoreboard objectives luamvm_reg dummy
---   /scoreboard setdisplay sidebar luamreg
+--   /scoreboard objectives add luamvm_reg dummy
+--   /scoreboard objectives setdisplay sidebar luamvm_reg
 --   /scoreboard players set $max luamvm_reg 0
 --   /scoreboard players set $mgx luamvm_reg 0
 --   /scoreboard players set $mcx luamvm_reg 0
 --   /scoreboard players set $msp luamvm_reg 0
 
 --  STACK, MEMORY, OBJECT POOLING:
---   /data merge storage luamvm:<namepace> {"stack":[I;],"mem":{"objs":{},"rel":{}}}
+--   /data modify storage luamvm:datapack mem.obj set value {"stack":[I;],"mem":{"obj":{},"rel":{}}}
 
 --  PERSISTENT MEMORY:
 --   /data merge storage <namespace>:data {}
