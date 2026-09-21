@@ -38,7 +38,7 @@
 --   /scoreboard players set $msp luamvm_reg 0
 
 --  STACK, MEMORY, OBJECT POOLING:
---   /data modify storage luamvm:datapack mem.obj set value {"stack":[I;],"mem":{"obj":{},"rel":{}}}
+--   /data merge storage luam:vm {".stack":[I;],".heap":{}}
 
---  PERSISTENT MEMORY:
---   /data merge storage <namespace>:data {}
+--  READ-ONLY DATA:
+--   /data merge storage datapack:data {".rodata":[],".bss":[]}
