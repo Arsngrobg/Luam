@@ -14,7 +14,10 @@
 --   |- NBT array that grows and shrinks in size
 --   |- the $msp controls where the "top" is
 --   |- is the call stack for function calls
---   |- stack frames are reused whenever TCO is possible
+--      \- stack frames are reused whenever TCO is possible
+--   |- also contains:
+--      \- numbers
+--      \- object IDs
 
 --  MEMORY (`/data ... storage`):
 --   |- luam garbage collector manages this region
