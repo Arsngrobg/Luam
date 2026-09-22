@@ -2,43 +2,31 @@
 
 -- the virtual machine consists of:
 --  REGISTERS (`/scoreboard`):
---   |- $max = Memory Accumulator (primary arithmetic register)
---   |- $mgx = Memory General (general purpose register)
---   |- $mcx = Memory Counter Register (loops)
---   |- $msp = Memory Stack Pointer
---  PREFIXES:
---   |- '$' -> when `-debug` flag is given to luam
---   |- '#' -> otherwise (hides the register values)
+--   |- $R(0) - accumulating register
+--   |- $R(1) - operand register
+--   |- $R(2) - counter (e.g. FOR loops, WHILE with counter)
 
---  STACK (`/data ... storage`):
---   |- NBT array that grows and shrinks in size
---   |- the $msp controls where the "top" is
---   |- is the call stack for function calls
---      \- stack frames are reused whenever TCO is possible
---   |- also contains:
---      \- numbers
---      \- object IDs
+--  STACK (`/data ... storage luam:vm ".stack" ...`):
+--   |- NBT Integer array
+--   |- the call stack for true function calls
+--       |- can be reused whenever TCO is possible
+--   |- contains numbers or heap object addresses
+--       |- the compiler knows when to use this formatting
 
---  MEMORY (`/data ... storage`):
---   |- luam garbage collector manages this region
---   |- each object gets its own integer ID
---      \- maximum number of objects in a single moment is 4,294,967,295
---      \- your computer will run out of memory before we reach that limit
---   |- two primary NBT entries:
---      \- object pool        -> lua tables, strings
---      \- relationship table -> variable identifiers that index into the object pool
+--  MEMORY (`/data ... storage luam:vm ".heap" ...`):
+--   |- NBT ID to Object mapping
+--   |- garbage collector handles heap objects
+--   |- each malloc creates a new entry in heap space if it does not alredy exist
 
--- TESTING (.mcfunction):
---  REGISTERS:
---   /scoreboard objectives add luamvm_reg dummy
---   /scoreboard objectives setdisplay sidebar luamvm_reg
---   /scoreboard players set $max luamvm_reg 0
---   /scoreboard players set $mgx luamvm_reg 0
---   /scoreboard players set $mcx luamvm_reg 0
---   /scoreboard players set $msp luamvm_reg 0
+--  SEGMENTS (`/data ... storage <namespace>:sections ...`):
+--   |- contains read-only data (".rodata")
+--       |- NBT Object array
+--   |- contains pre-defined initialized globals (".data")
+--       |- NBT Object array
+--   |- contains defined uninitialized globals (".bss")
+--       |- NBT Object array
 
---  STACK, MEMORY, OBJECT POOLING:
---   /data merge storage luam:vm {".stack":[I;],".heap":{}}
-
---  READ-ONLY DATA:
---   /data merge storage datapack:data {".rodata":[],".bss":[]}
+--  PERSISTENT (`/data ... storage <namespace>:data ...`):
+--   |- is a generic container
+--   |- contains persistent data to use between sessions
+--   |- is the destination when using the `io` library
