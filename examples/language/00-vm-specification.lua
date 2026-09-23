@@ -4,7 +4,13 @@
 --  REGISTERS (`/scoreboard`):
 --   |- $R(0) - accumulating register
 --   |- $R(1) - operand register
---   |- $R(2) - counter (e.g. FOR loops, WHILE with counter)
+--   |- $R(2) - general purpose register 1
+--   |- $R(3) - general purpose register 2
+--   |- $R(4) - general purpose register 3
+--   |- $R(5) - general purpose register 4
+--   |- $R(6) - general purpose register 5
+--   |- $R(7) - general purpose register 6
+--   |- $R(8) - counter (e.g. FOR loops, WHILE with counter) (non-volatile)
 
 --  STACK (`/data ... storage luam:vm ".stack" ...`):
 --   |- NBT Integer array
@@ -21,6 +27,7 @@
 --  SEGMENTS (`/data ... storage <namespace>:sections ...`):
 --   |- contains read-only data (".rodata")
 --       |- NBT Object array
+--       |- contains objects that will never be garbage collected
 --   |- contains pre-defined initialized globals (".data")
 --       |- NBT Object array
 --   |- contains defined uninitialized globals (".bss")
@@ -29,4 +36,4 @@
 --  PERSISTENT (`/data ... storage <namespace>:data ...`):
 --   |- is a generic container
 --   |- contains persistent data to use between sessions
---   |- is the destination when using the `io` library
+--   |- the region that the `io` library interacts with
