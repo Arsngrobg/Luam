@@ -110,8 +110,8 @@ The list of optimizations Luam performes are as follows:
 The `-debug` flag tells Luam to not optimize any Lua source code.
 The only exception to this rule is **TCO**.
 
-## The Standard Library
-For now, Luam will not suppport any of the Lua 5.1 standard library.
+## Standard Libraries
+Luam suports the base Lua library, and includes its own  common libraries for interfacing with a Minecraft server.
 
 ## Writing Datapacks by Hand Can Be Annoying
 - You are restricted to Minecraft's command syntax
