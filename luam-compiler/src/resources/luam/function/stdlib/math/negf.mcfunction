@@ -1,6 +1,6 @@
-#> luam:stdlib/math/abs(x)
+#> luam:stdlib/math/negf(x)
 #  @param x a number
-#  @returns the magnitude of x
+#  @returns the same number with its sign bit toggled
 
 # IEEE-754:
 #  Exponent Bias = 01111111 (127)
@@ -10,8 +10,6 @@
 
 execute store result score $R(0) luam.vm.reg run data get storage luam:vm ".stack"[-1]
 
-# negative condition
-execute if score $R(0) luam.vm.reg matches ..-1 run function luam:stdlib/.scopes/math/neg/flip_bit
+function luam:.inline/flip_bit
 
-# return
 execute store result storage luam:vm ".stack"[-1] int 1 run scoreboard players get $R(0) luam.vm.reg

@@ -5,5 +5,5 @@
 --     \- this returns the mumber of bytes the string
 
 -- .mcfunction:
---  /data merge storage luamvm:<namespace> {"mem":{"obj":{0:"Hello, World!"},{"rel":{"_":0}}}}
+--  /data merge storage <namespace>:.rodata ["Hello, World!"]
 _="Hello, World!"

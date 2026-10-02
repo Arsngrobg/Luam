@@ -34,10 +34,6 @@ subprojects {
         mavenCentral()
     }
 
-    dependencies {
-        add("implementation", "org.jetbrains.kotlinx:kotlinx-io-core:0.9.1")
-    }
-
     tasks.named<Jar>("jar") {
         manifest {
             attributes(
@@ -48,22 +44,12 @@ subprojects {
     }
 }
 
-// PROJECTS (FROM TOP TO BOTTOM)
-project(":luam-parser")
-
-project(":luam-codegen") {
-    dependencies {
-        add("implementation", project(":luam-parser"))
-    }
-}
-
-project(":luam-driver") {
+// PROJECT
+project(":luam-compiler") {
     apply(plugin = "application")
 
     dependencies {
         add("implementation", "com.github.ajalt.clikt:clikt:5.0.1")
-        add("implementation", project(":luam-parser"))
-        add("implementation", project(":luam-codegen"))
     }
 
     extensions.configure<JavaApplication> {
