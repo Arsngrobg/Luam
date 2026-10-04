@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":luam-compiler"))
     implementation("com.github.ajalt.clikt:clikt:5.0.1")
 }
 
