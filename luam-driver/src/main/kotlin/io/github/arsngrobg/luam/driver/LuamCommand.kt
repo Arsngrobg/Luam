@@ -2,6 +2,8 @@ package io.github.arsngrobg.luam.driver
 
 import java.io.File
 
+import io.github.arsngrobg.luam.compiler.LuamConstants
+
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.arguments.argument
@@ -17,12 +19,6 @@ import com.github.ajalt.clikt.parameters.types.uint
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.restrictTo
 
-object TODO {
-    const val LUAM_VERSION         = "1.0"
-    const val DEFAULT_ARCHIVE_NAME = "dinnerbone" // funny minecraft easter egg haha
-    const val LATEST_FORMAT        = 48u          // will use latest version by default
-}
-
 class LuamCommand : CliktCommand("luam") {
     val files: List<File>
         by argument("file")
@@ -33,7 +29,7 @@ class LuamCommand : CliktCommand("luam") {
     val outName: File
         by option("-o")
                .file(mustExist = false, canBeDir = false)
-               .default(File(TODO.DEFAULT_ARCHIVE_NAME))
+               .default(File(LuamConstants.DATAPACK_DEFAULT))
                .help("The name of the output archive")
 
     val outImg: String?
@@ -67,11 +63,11 @@ class LuamCommand : CliktCommand("luam") {
                        else -> fail("Format arg must be given in a pair")
                    }
                }
-              .default(TODO.LATEST_FORMAT to TODO.LATEST_FORMAT)
+              .default(LuamConstants.LATEST_FORMAT to LuamConstants.LATEST_FORMAT)
               .help("Specifies the format of the datapack")
 
     init {
-        versionOption(TODO.LUAM_VERSION, names = setOf("--version"))
+        versionOption(LuamConstants.VERSION_STRING, names = setOf("--version"))
     }
 
     override fun run() {
