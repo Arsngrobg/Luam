@@ -2,8 +2,6 @@ package io.github.arsngrobg.luam.driver
 
 import java.io.File
 
-import kotlin.math.pow
-
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.arguments.argument
@@ -18,8 +16,6 @@ import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.parameters.types.uint
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.restrictTo
-
-import io.github.arsngrobg.luam.parser.*
 
 object TODO {
     const val LUAM_VERSION         = "1.0"
@@ -90,30 +86,30 @@ class LuamCommand : CliktCommand("luam") {
         //         print('bar')
         //     end
         // end
-        val tokens = buildList<LuaToken> {
-            add(LuaToken(LuaTokenKind.FUNCTION))
-            add(LuaToken(LuaTokenKind.NAME, SemInfo.String("check")))
-            add(LuaToken(LuaTokenKind.LPAREN))
-            add(LuaToken(LuaTokenKind.NAME, SemInfo.String("x")))
-            add(LuaToken(LuaTokenKind.RPAREN))
-            add(LuaToken(LuaTokenKind.IF))
-            add(LuaToken(LuaTokenKind.NAME, SemInfo.String("x")))
-            add(LuaToken(LuaTokenKind.LT))
-            add(LuaToken(LuaTokenKind.NUMBER, SemInfo.Number(0.0)))
-            add(LuaToken(LuaTokenKind.THEN))
-            add(LuaToken(LuaTokenKind.NAME, SemInfo.String("print")))
-            add(LuaToken(LuaTokenKind.LPAREN))
-            add(LuaToken(LuaTokenKind.STRING, SemInfo.String("foo")))
-            add(LuaToken(LuaTokenKind.RPAREN))
-            add(LuaToken(LuaTokenKind.ELSE))
-            add(LuaToken(LuaTokenKind.NAME, SemInfo.String("print")))
-            add(LuaToken(LuaTokenKind.LPAREN))
-            add(LuaToken(LuaTokenKind.STRING, SemInfo.String("bar")))
-            add(LuaToken(LuaTokenKind.RPAREN))
-            add(LuaToken(LuaTokenKind.END))
-            add(LuaToken(LuaTokenKind.END))
-        }
-        tokens.forEach { println(it) }
+        // val tokens = buildList<LuaToken> {
+        //     add(LuaToken(LuaTokenKind.FUNCTION))
+        //     add(LuaToken(LuaTokenKind.NAME, SemInfo.String("check")))
+        //     add(LuaToken(LuaTokenKind.LPAREN))
+        //     add(LuaToken(LuaTokenKind.NAME, SemInfo.String("x")))
+        //     add(LuaToken(LuaTokenKind.RPAREN))
+        //     add(LuaToken(LuaTokenKind.IF))
+        //     add(LuaToken(LuaTokenKind.NAME, SemInfo.String("x")))
+        //     add(LuaToken(LuaTokenKind.LT))
+        //     add(LuaToken(LuaTokenKind.NUMBER, SemInfo.Number(0.0)))
+        //     add(LuaToken(LuaTokenKind.THEN))
+        //     add(LuaToken(LuaTokenKind.NAME, SemInfo.String("print")))
+        //     add(LuaToken(LuaTokenKind.LPAREN))
+        //     add(LuaToken(LuaTokenKind.STRING, SemInfo.String("foo")))
+        //     add(LuaToken(LuaTokenKind.RPAREN))
+        //     add(LuaToken(LuaTokenKind.ELSE))
+        //     add(LuaToken(LuaTokenKind.NAME, SemInfo.String("print")))
+        //     add(LuaToken(LuaTokenKind.LPAREN))
+        //     add(LuaToken(LuaTokenKind.STRING, SemInfo.String("bar")))
+        //     add(LuaToken(LuaTokenKind.RPAREN))
+        //     add(LuaToken(LuaTokenKind.END))
+        //     add(LuaToken(LuaTokenKind.END))
+        // }
+        // tokens.forEach { println(it) }
 
         repeat(files.size) { idx ->
             echo(files[idx].name)
