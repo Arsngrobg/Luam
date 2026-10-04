@@ -18,3 +18,6 @@
 
 # Binaries
 *.jar           binary
+
+# Language Statistics
+examples/** linguist-documentation=false
