@@ -60,7 +60,7 @@ It is optional, and will default to a random name if left unspecified.
 - Load up the respective Minecraft world
 - On load, you should see a message pop-up in the chat history:
 ```
-[server] Hello, World!
+[@] Hello, World!
 ```
 
 ### Adding an icon
