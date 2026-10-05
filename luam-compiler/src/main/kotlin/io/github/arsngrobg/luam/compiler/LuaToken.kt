@@ -1,5 +1,19 @@
 package io.github.arsngrobg.luam.compiler
 
+@ExperimentalUnsignedTypes
+data class LuaChunk(val bytes: UByteArray) {
+    val size:  UInt = bytes.size.toUInt()
+    val lines: UInt = bytes.count{it.toInt().toChar() == '\n'}.toUInt()
+
+    operator fun get(index: Int): UByte =
+        bytes[index]
+
+    override fun hashCode():            Int     = bytes.contentHashCode()
+    override fun equals  (other: Any?): Boolean = (other is LuaChunk) && (bytes.contentEquals(other.bytes))
+    override fun toString():            String  = "LuaChunk(\n${bytes.toByteArray().decodeToString()}\n)"
+}
+
+
 /** The set of valid token in Lua 5.1 */
 enum class LuaTokenKind {
     NAME,
