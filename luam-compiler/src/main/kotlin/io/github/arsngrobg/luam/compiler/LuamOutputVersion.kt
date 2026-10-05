@@ -6,7 +6,7 @@ data class PackFormat(
 )
 
 // https://minecraft.wiki/w/Pack_format
-enum class LuamOutputFormat(val packFormat: PackFormat) {
+enum class LuamOutputVersion(val packFormat: PackFormat) {
     MC1_15   (PackFormat(5u)),
     MC1_15_1 (PackFormat(5u)),
     MC1_15_2 (PackFormat(5u)),
