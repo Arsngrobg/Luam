@@ -18,6 +18,7 @@ import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.parameters.types.uint
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.restrictTo
+import io.github.arsngrobg.luam.compiler.LuamOutputFormat
 
 class LuamCommand : CliktCommand("luam") {
     val files: List<File>
@@ -73,6 +74,10 @@ class LuamCommand : CliktCommand("luam") {
     override fun run() {
         if (files.isEmpty()) {
             throw UsageError("no files given")
+        }
+
+        LuamOutputFormat.entries.forEach {
+            println(it.actualName)
         }
 
         // function check(x)
