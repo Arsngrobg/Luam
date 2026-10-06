@@ -55,7 +55,7 @@ value class LuaFunction(val i: UInt) : LuaType
 
 /**
  * Arbitrary Luam module data to be stored in Lua variables.
- * Userdata is treated as read-only, compile-time tables that represent complex internal systems.
+ * Userdata is a compile-time model to interface between Lua and the host.
  */
 @JvmInline
 value class LuaUserData(val i: UInt) : LuaType
