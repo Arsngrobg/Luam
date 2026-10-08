@@ -24,7 +24,7 @@ Compiling from source is just as simple as installing.
 - Download the latest stable release of the source tree
 - At the root of the repository, invoke this command
 ```bash
-~> gradlew build
+~> gradlew install
 ```
 - If successful you should have an executable JAR file
 - Test the compiler using:
