@@ -19,5 +19,6 @@ dependencies {
 }
 
 application {
+    applicationName = "luam"
     mainClass.set("io.github.arsngrobg.luam.driver.LuamMainKt")
 }
