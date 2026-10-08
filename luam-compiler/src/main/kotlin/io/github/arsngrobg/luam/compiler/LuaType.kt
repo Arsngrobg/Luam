@@ -1,7 +1,7 @@
 package io.github.arsngrobg.luam.compiler
 
 /**
- * Lua is a dynamically typed langage.
+ * Lua is a dynamically typed language.
  * There are no type definitions in the language; each value carries its own type.
  */
 sealed interface LuaType
@@ -16,7 +16,7 @@ object LuaNil : LuaType
  * The boolean type has two values, **false** and **true**.
  * However, they do not hold a monopoly of condition values:
  * In Lua, any value can represent a condition.
- * Conditionals consider **false** and **nil** as false aand everything else as true.
+ * Conditionals consider **false** and **nil** as false and everything else as true.
  */
 @JvmInline
 value class LuaBoolean(val b: Boolean) : LuaType
@@ -39,7 +39,7 @@ value class LuaString(val s: String) : LuaType
 
 /**
  * The table type implements associative arrays.
- * It can be indexed not just with numbers, but also with strings or any other value of the langage, except **nil**.
+ * It can be indexed not just with numbers, but also with strings or any other value of the language, except **nil**.
  * Moreover, tables have no fixed size; you can add as many elements as you want to a table dynamically.
  * Tables are the main data structuring mechanism in Lua.
  */
