@@ -22,4 +22,5 @@ dependencies {
 application {
     applicationName = "luam"
     mainClass.set("io.github.arsngrobg.luam.driver.LuamMainKt")
+    applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
 }
