@@ -2,146 +2,145 @@
 An **ahead-of-time (AOT)** Lua compiler for Minecraft datapacks, using Lua 5.1 as the language frontend.
 
 > [!NOTE]
-> Current development is on 1.15, as it introduced the `/data ... storage` subcommand.
-> This simplifies many headaches in the early stages of development.
-> Work **may** be done in the future to be backwards compatible until **1.13** (introduction of datapacks).
+> Current development supports Minecraft versions starting from **1.15**, as it introduced the global `storage` NBT data container.
+> Work **may** be done in the future to be backwards compatible with versions from **1.13** onwards.
+> Currently, there are no plans to support Minecraft snapshots.
 
-## Getting Started
-See below on how to get started with Luam.
+## Installing Luam
+See below on how to install Luam and build your first datapack:
 
-### 1. How to Install
-- Go to the releases **[releases](https://github.com/Arsngrobg/Luam/releases)** page
-- Download the compiled JAR file
-- Place the JAR in a location of your choosing
-- Add the path of the JAR into your PATH (optional)
-- Test the compiler using:
+ - Download the latest **[release](https://github.com/Arsngrobg/Luam/releases/latest)**
+ - Unpack the distribution archive
+ - Place the `luam` folder in a directory of your choosing *(e.g. programs)*
+ - Add `luam` to your `PATH` variable
+ - Check using this command:
 ```bash
-~> luam --version
+~ luam
 ```
 
-### 2. Compile from Source
-Compiling from source is just as simple as installing.
-- Download the latest stable release of the source tree
-- At the root of the repository, invoke this command
+## Getting to Know The Compiler
+Luam provides a help text when you invoke the Luam driver:
 ```bash
-~> gradlew install
+~ luam help
 ```
-- If successful you should have an executable JAR file
-- Test the compiler using:
+
+To get the version of Luam Currently installed on your system:
 ```bash
-~> luam --version
+~ luam version
 ```
 
-### Your First Script
-To start off with, check the `examples` directory for different Lua scripts to test the features of the compiler.
-For example, here is the `hello-world.lua` snippet:
-
-```lua
--- printing 'Hello, World!' to the chat
-
--- no external data will be required for the script
--- the compler will strip away any zero-initialization logic (unless `-debug` flag provided)
--- all that will be emitted by the compiler is the intrinsic
--- .mcfunction:
---  /tellraw @a {"text":"Hello, World!"}
-
-print('Hello, World!')
-```
-
-Invoke the compiler (assuming cwd is `examples`):
+## Building a project
+To build a project in Luam you will need to invoke Luam with the `build` subcommand:
 ```bash
-~> luam hello-world.lua -o hello-world
+~ luam build
 ```
 
-The `-o` flag signals to the compiler that you want to specify a name for the datapack.
-It is optional, and will default to a random name if left unspecified.
-
-- Place the datapack in your Minecraft world data folder
-- Load up the respective Minecraft world
-- On load, you should see a message pop-up in the chat history:
-```
-[@] Hello, World!
-```
-
-### Adding an icon
-Every proffessional datapack needs to have a thumbnail.
-
-Going back to compiling the `hello-world.lua` script:
+This compiles all `.lua` source files within the current working directory.
+You can specify the directory by supplying a path argument:
 ```bash
-~> luam hello-world.lua -i icon.png
+~ luam build examples/language/
 ```
 
-The `-i` flag signals to the compiler that you want to specify a URL to an image file that will show up in the datapacks list on Minecraft.
-
-### Targetting Specific Minecraft Versions
-You may want to compile for the latest version of mimecraft; or you may want to compile a different target version.
-By default, Luam defaults to the latest compilable version known to it.
-However, you can specify a minimum version for this datapack as follows:
+You can specify a single file, using the `hello-world.lua` examples script:
 ```bash
-~> luam hello-world.lua --format=48
+~ luam build examples/language/hello-world.lua -file
 ```
-*This specifies that the datapack is runnable on Minecraft version 1.21 or later.*
 
-You may want to also specify a maximum version:
+## Naming your Compiled Datapack
+By default, Luam won't name your compiled datapack.
+
+To change this use the `-out:...` flag:
 ```bash
-~> luam hello-world.lua --format=48,78
+~ luam build -out:my-datapack
 ```
-*This specifies that the datapack is runnable on Minecraft versions 1.21 through 1.12.8.*
 
-**You also cannot specify a maximum version without a minimum version.**
+If you want to include spaces in your name surround the value with double-quotes.
+
+For example:
+```bash
+~ luam build -out:"my datapack"
+```
+
+## Giving your Compiled Datapack an Icon
+Luam will search for a `pack.png` file in your directory.
+If there is not one or you would like to reference an image from elsewhere on your machine, you can use the `-icon:<URL>` flag:
+```bash
+~ luam build -icon:~/images/image.png
+```
+
+Much like the `-out:...` flag, you can wrap the path in double-quotes:
+```bash
+~ luam build -icon:"~/images/datapack icon.png"
+```
+
+## Targeting a Specific Minecraft Version
+By default, Luam will compile for the latest Minecraft version it knows of.
+
+You can specify a version:
+```bash
+~ luam build -version:1.20.1
+```
+
+Pack formats have a one to many relationship with Minecraft versions.
+This means that if you support 1.20.1 *(pack format: `15`)* you also support 1.20.
 
 ## Compiler Optimizations
-To retain 100% parity with Lua 5.1, Luam optimizes tail calls as the Lua manual states it is a [feature of the language](https://www.lua.org/pil/6.3.html).
+Luam, by default, optimizes at the highest level (`3`).
+You can tweak this level with the `-oplvl=...` flag:
+```bash
+~ luam build -oplvl=0
+```
 
-But, by default, Luam makes every effort to optimize.
+Because Luam maintains compatability with the Lua specification, it always ensures that Tail Call Opimization is baked into compilation.
+At optimization level zero, this is the only optimization made by the compiler.
 
-A list if each optimization level, and what each enables, are listed below.
+See below for a comprehensive list of optimizations:
+ - ### at `-oplvl=0`:
+   - Tail Call Optimization (TCO)
+ - ### at `-oplvl=1`:
+   - **TBC**
+ - ### at `-oplvl=2`:
+   - **TBC**
+ - ### at `-oplvl=3`:
+   - **TBC**
 
-The list of optimizations Luam performes are as follows:
-- Tail Call Optimization (TCO)
-- Algebraic Simplifications
-- Constant Folding
-- Constant Propagation
-- Dead Branch Elimination
-- Dead Code Elimination
-- Function Inlining
-- Static Loop Optimizations
+*Optimization levels inherit all the optimizations from the one before it.*
 
-The `-debug` flag tells Luam to not optimize any Lua source code.
-The only exception to this rule is **TCO**.
+## Modules (TBC)
+Luam provides quite a number of ready-to-use modules to include in your scripts.
+Some are in global scope (`_G`), some must be imported using the `require` function:
+ - ### in global (`_G`) scope:
+   - math
+ - ### must be imported (`require(...)`):
+   - World
+   - Player
+   - Entity
 
-## Standard Libraries
-Luam suports the base Lua library, and includes its own  common libraries for interfacing with a Minecraft server.
+## The Runtime
+Luam embeds a small runtime per datapack.
+This allows for compatibility with how the Lua runtime operates.
 
-## Writing Datapacks by Hand Can Be Annoying
-- You are restricted to Minecraft's command syntax
-- No direct support for iteration
-- No direct support for structured data
-- Control flow is supported, but only through callback functions
-- No call stack
-- Global mutable state
-- A single "block" or unit of code must be within its own `.mcfunction` file
-- For advanced projects, they become amalgamations of `.mcfunction` and `.json` files
-- Data is treated as code
+It includes:
+ - a Memory Allocator
+ - a Garbage Collector (GC)
+ - a Runtime Library
 
-## Why Lua?
-- Lua is designed in a way such that it is simple to understand.
-- Lua is *easy to parse*, it has a very disambiguous syntax.
-- Lua is known for being embedded in host-applications (e.g. NeoVim, Garry's Mod, Roblox)
-- Lua tables align with how data is represented in Minecraft
+### The Runtime Library
+To be able to natively support the `number` type (`float`), Luam ships floating-point arithmetic functions into compiled datapacks.
 
-## Similar Projects
-- [Beet](https://mcbeet.dev) - a data-driven Python *"development kit"* for creating datapacks
-- [Sandstone](https://sandstone.dev) - a Typescript datapack library
-- [ObjD](https://objd.stevertus.com) - a framework for developing datapacks in the Dart programming language
+## Appendix
+### Similar Projects
+ - [Beet](https://mcbeet.dev) - a data-driven [Python](https://www.python.org) *"development kit"* for creating datapacks
+ - [Sandstone](https://sandstone.dev) - a [Typescript](https://www.typescriptlang.org) datapack library
+ - [ObjD](https://objd.stevertus.com) - a framework for developing datapacks in the [Dart](https://dart.dev) programming language
 
-### References
-- https://www.lua.org/about.html
-- https://www.lua.org/manual/5.1/manual.html
-- https://www.reddit.com/r/feedthebeast/comments/1iq8u1h/datapacks_are_criminally_underused_in_modpacks
-- https://notes.highlysuspect.agency/datapacks-bad.html
-- https://mcbeet.dev
-- https://sandstone.dev
-- https://objd.stevertus.com
-- https://minecraft.wiki/w/Pack_format
-- https://www.lua.org/pil/6.3.html
+### Links
+ - https://mcbeet.dev
+ - https://sandstone.dev
+ - https://objd.stevertus.com
+ - https://www.python.org
+ - https://www.typescriptlang.org
+ - https://dart.dev
+
+### Bibliography
+ - [Lua Manual](https://www.lua.org/manual/5.1)
