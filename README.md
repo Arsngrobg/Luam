@@ -43,7 +43,7 @@ You can specify the directory by supplying a path argument:
 
 You can specify a single file, using the `hello-world.lua` examples script:
 ```bash
-~ luam build examples/language/hello-world.lua -file
+~ luam build examples/language/ hello-world.lua -file
 ```
 
 ## Naming your Compiled Datapack
