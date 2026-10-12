@@ -15,7 +15,9 @@ enum class LuaTokenKind {
 
     EQ,  NEQ, LTE, GTE, LT,  GT,  ASSIGN,
 
-    LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK
+    LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK,
+
+    SEMI_COLON
 }
 
 /**
