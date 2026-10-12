@@ -1,6 +1,6 @@
 package io.github.arsngrobg.luam.compiler
 
-/** The set of valid token in Lua 5.1 */
+/** The set of valid tokens in Lua 5.1 */
 enum class LuaTokenKind {
     NAME,
 
