@@ -1,13 +1,32 @@
 package io.github.arsngrobg.luam.driver
 
-import com.github.ajalt.clikt.core.context
-import com.github.ajalt.clikt.core.terminal
-import com.github.ajalt.clikt.core.main
-import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.mordant.rendering.AnsiLevel
-import com.github.ajalt.mordant.terminal.Terminal
+fun executeBuild(argv: Array<String>): Unit {
+    var isDirectoryActuallyAFile = false
+    for (argi in 1 until argv.size) {
+        val arg = argv[argi]
+        if (arg.startsWith("-out:")) {
+            val value = arg.removePrefix("-out:")
+            println(value)
+        } else
+        if (arg.startsWith("-icon:")) {
+            val value = arg.removePrefix("-icon:")
+            println(value)
+        } else
+        if (arg.startsWith("-version:")) {
+            val value = arg.removePrefix("-version:")
+            println(value)
+        }
+    }
+}
 
-fun main(argv: Array<String>): Unit =
-    LuamCLI().subcommands(LuamBuildCommand()).context {
-        terminal = Terminal(AnsiLevel.TRUECOLOR, interactive = true)
-    }.main(argv)
+fun executeHelp(argv: Array<String>): Unit {
+    TODO("Help message")
+}
+
+fun main(argv: Array<String>): Unit {
+    when (val command = argv.getOrNull(0)) {
+        "build" -> executeBuild(argv)
+        null    -> executeHelp(argv)
+        else    -> error("Luam: unknown command: \"$command\"")
+    }
+}
