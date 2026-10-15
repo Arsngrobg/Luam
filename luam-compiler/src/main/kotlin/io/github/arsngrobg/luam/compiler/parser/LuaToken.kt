@@ -1,4 +1,4 @@
-package io.github.arsngrobg.luam.compiler
+package io.github.arsngrobg.luam.compiler.parser
 
 /** The set of valid tokens in Lua 5.1 */
 enum class LuaTokenKind {
@@ -28,7 +28,7 @@ enum class LuaTokenKind {
  */
 sealed interface SemInfo {
     object None : SemInfo
-    @JvmInline value class Number(val x: kotlin.Double) : SemInfo
+    @JvmInline value class Number(val x: Double) : SemInfo
     @JvmInline value class String(val s: kotlin.String) : SemInfo
 }
 
