@@ -12,11 +12,14 @@ kotlin {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://libraries.minecraft.net")
+    }
 }
 
 dependencies {
     implementation(project(":luam-compiler"))
-    implementation("com.github.ajalt.clikt:clikt:5.0.1")
+    implementation("com.mojang:brigadier:1.0.18")
 }
 
 application {
