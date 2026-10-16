@@ -44,3 +44,34 @@ value class LuaChar(val byte: UByte) {
 
 fun UByte.toLuaChar(): LuaChar =
     LuaChar(this)
+
+@ExperimentalUnsignedTypes
+class LuaSourceReader(val source: LuaSource) : Iterator<LuaChar> {
+    var position: Int = 0
+        private set
+
+    val canRead: Boolean
+        get() = position < source.length
+
+    override fun hasNext(): Boolean =
+        canRead
+
+    private fun ensureReadability(): Unit {
+        if (!canRead) {
+            throw NoSuchElementException("reader has reached the end of file")
+        }
+    }
+
+    fun peek(): LuaChar {
+        ensureReadability()
+        return source[position].toLuaChar()
+    }
+
+    fun pop(): LuaChar {
+        ensureReadability()
+        return source[position++].toLuaChar()
+    }
+
+    override fun next(): LuaChar =
+        pop()
+}
