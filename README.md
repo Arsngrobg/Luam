@@ -126,7 +126,7 @@ It includes:
  - a Runtime Library
 
 ### The Runtime Library
-To be able to natively support the `number` type (`float`), Luam ships floating-point arithmetic functions into compiled datapacks.
+To be able to natively support the `number` type (`kotlin.Float`), Luam ships floating-point arithmetic functions into compiled datapacks.
 
 ## Appendix
 ### Similar Projects
