@@ -111,6 +111,8 @@ Luam provides quite a number of ready-to-use modules to include in your scripts.
 Some are in global scope (`_G`), some must be imported using the `require` function:
  - ### in global (`_G`) scope:
    - math
+   - table
+   - random
  - ### must be imported (`require(...)`):
    - World
    - Player
