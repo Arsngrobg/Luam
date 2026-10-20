@@ -1,4 +1,4 @@
-package io.github.arsngrobg.luam.compiler.lua
+package io.github.arsngrobg.luam.compiler
 
 /**
  * Lua is a dynamically typed language.

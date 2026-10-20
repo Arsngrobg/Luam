@@ -3,6 +3,8 @@ package io.github.arsngrobg.luam.driver
 import java.nio.file.Path
 
 import io.github.arsngrobg.luam.compiler.LuamConstants
+import io.github.arsngrobg.luam.compiler.tokenize
+import java.io.StringReader
 
 object LuamFlags {
     var treatDirAsFile: Boolean = false
@@ -33,6 +35,7 @@ fun executeBuild(argv: Array<String>): Unit {
             dir = Path.of(arg)
         }
     }
+    println(tokenize("local x = +++"))
 }
 
 fun executeVersion(argv: Array<String>): Unit {
