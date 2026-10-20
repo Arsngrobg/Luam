@@ -7,6 +7,7 @@ kotlin {
     jvmToolchain(25)
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
+        optIn.add("kotlin.ExperimentalUnsignedTypes")
     }
 }
 
