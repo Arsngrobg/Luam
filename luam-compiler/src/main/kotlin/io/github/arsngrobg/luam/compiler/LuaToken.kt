@@ -127,6 +127,7 @@ fun tokenize(src: String): List<LuaToken> {
                     val str = String(bytes.copyOfRange(start, position))
                     add(LuaToken(LuaTokenKind.STRING, SemInfo.String(str)))
                 }
+                ';' -> add(LuaToken(LuaTokenKind.SEMI_COLON))
                 else -> {
                     val start = position - 1
                     while (position < bytes.size && !bytes[position].toInt().toChar().isWhitespace()) {
