@@ -117,6 +117,7 @@ fun tokenize(src: String): List<LuaToken> {
                         position++
                     }
                     val str = String(bytes.copyOfRange(start, position))
+                    position++
                     add(LuaToken(LuaTokenKind.STRING, SemInfo.String(str)))
                 }
                 '\"' -> {
@@ -125,6 +126,7 @@ fun tokenize(src: String): List<LuaToken> {
                         position++
                     }
                     val str = String(bytes.copyOfRange(start, position))
+                    position++
                     add(LuaToken(LuaTokenKind.STRING, SemInfo.String(str)))
                 }
                 ';' -> add(LuaToken(LuaTokenKind.SEMI_COLON))
