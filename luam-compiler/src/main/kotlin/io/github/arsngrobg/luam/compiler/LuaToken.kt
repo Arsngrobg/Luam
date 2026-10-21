@@ -67,14 +67,22 @@ fun tokenize(src: String): List<LuaToken> {
             // SEMI_COLON
             when (ch) {
                 '+' -> add(LuaToken(LuaTokenKind.ADD))
-                '-' -> add(LuaToken(LuaTokenKind.SUB))
+                '-' -> {
+                    if (position < bytes.size && bytes[position].toInt().toChar() == '-') {
+                        while (position < bytes.size && bytes[position].toInt().toChar() != '\n') {
+                            position++
+                        }
+                    } else {
+                        add(LuaToken(LuaTokenKind.SUB))
+                    }
+                }
                 '*' -> add(LuaToken(LuaTokenKind.MUL))
                 '/' -> add(LuaToken(LuaTokenKind.DIV))
                 '%' -> add(LuaToken(LuaTokenKind.MOD))
                 '^' -> add(LuaToken(LuaTokenKind.POW))
                 '#' -> add(LuaToken(LuaTokenKind.LEN))
                 '=' -> {
-                    if (position < bytes.size && bytes[position+1].toInt().toChar() == '=') {
+                    if (position < bytes.size && bytes[position].toInt().toChar() == '=') {
                         position++
                         add(LuaToken(LuaTokenKind.EQ))
                     } else {
@@ -82,7 +90,7 @@ fun tokenize(src: String): List<LuaToken> {
                     }
                 }
                 '~' -> {
-                    if (position < bytes.size && bytes[position+1].toInt().toChar() == '=') {
+                    if (position < bytes.size && bytes[position].toInt().toChar() == '=') {
                         position++
                         add(LuaToken(LuaTokenKind.NEQ))
                     } else {
@@ -90,7 +98,7 @@ fun tokenize(src: String): List<LuaToken> {
                     }
                 }
                 '<' -> {
-                    if (position < bytes.size && bytes[position+1].toInt().toChar() == '=') {
+                    if (position < bytes.size && bytes[position].toInt().toChar() == '=') {
                         position++
                         add(LuaToken(LuaTokenKind.LTE))
                     } else {
@@ -98,7 +106,7 @@ fun tokenize(src: String): List<LuaToken> {
                     }
                 }
                 '>' -> {
-                    if (position < bytes.size && bytes[position+1].toInt().toChar() == '=') {
+                    if (position < bytes.size && bytes[position].toInt().toChar() == '=') {
                         position++
                         add(LuaToken(LuaTokenKind.GTE))
                     } else {
