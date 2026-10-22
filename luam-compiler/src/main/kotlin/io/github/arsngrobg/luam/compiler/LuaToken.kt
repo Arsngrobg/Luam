@@ -20,6 +20,8 @@ enum class LuaTokenKind {
 
     LPAREN, RPAREN, LBRACE, RBRACE, LBRACK, RBRACK,
 
+    DOT, DOT_PAIR, ELLIPSIS,
+
     SEMI_COLON
 }
 
@@ -31,8 +33,8 @@ enum class LuaTokenKind {
  */
 sealed interface SemInfo {
     object None : SemInfo
-    @JvmInline value class Number(val x: Float)         : SemInfo
-    @JvmInline value class String(val s: kotlin.String) : SemInfo
+    data class Number(val x: Float)         : SemInfo
+    data class String(val s: kotlin.String) : SemInfo
 }
 
 /**
