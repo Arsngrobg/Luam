@@ -110,14 +110,14 @@ See below for a comprehensive list of optimizations:
 Luam provides quite a number of ready-to-use modules to include in your scripts.
 Some are in global scope (`_G`), some must be imported using the `require` function:
  - ### in global (`_G`) scope:
-   - `math`
-   - `table`
-   - `random`
-   - `tick`
+   - `math` - standard mathematical functions
+   - `table` - table manipulation
+   - `random` - pseudorandom number generation
+   - `tick` - scheduler & tick conversions
  - ### must be imported (`require(...)`):
-   - `World`
-   - `Player`
-   - `Entity`
+   - `World` - gametime, blockstates, entity queries
+   - `Player` - per player data
+   - `Entity` - per entity data
 
 ## The Runtime
 Luam embeds a small runtime per datapack.
