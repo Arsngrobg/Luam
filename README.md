@@ -113,6 +113,7 @@ Some are in global scope (`_G`), some must be imported using the `require` funct
    - math
    - table
    - random
+   - tick
  - ### must be imported (`require(...)`):
    - World
    - Player
