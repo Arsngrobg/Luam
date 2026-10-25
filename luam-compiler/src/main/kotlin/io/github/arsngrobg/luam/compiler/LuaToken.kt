@@ -1,7 +1,6 @@
 package io.github.arsngrobg.luam.compiler
 
 import java.nio.charset.StandardCharsets
-import java.nio.file.Path
 
 /** The set of valid tokens in Lua 5.1 */
 enum class LuaTokenKind {
@@ -184,3 +183,8 @@ fun tokenize(src: String): List<LuaToken> {
         }
     }
 }
+
+// fun parseLua(src: String) {
+//     val source1 = LuaSource.ofPath("script.lua")
+//     val source2 = LuaSource.ofCode("local x = 'Hello, World!'")
+// }
