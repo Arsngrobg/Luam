@@ -117,7 +117,7 @@ Some are in global scope (`_G`), some must be imported using the `require` funct
  - ### must be imported (`require(...)`):
    - `World` - gametime, blockstates, entity queries
    - `Player` - per player data
-   - `Entity` - per entity data
+   - `Entity` - per entity/player data
 
 ## The Runtime
 Luam embeds a small runtime per datapack.
