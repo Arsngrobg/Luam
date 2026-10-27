@@ -1,4 +1,4 @@
-package io.github.arsngrobg.luam.compiler
+package io.github.arsngrobg.luam.compiler.lua
 
 import java.nio.charset.StandardCharsets
 
