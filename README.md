@@ -8,7 +8,6 @@ An **ahead-of-time (AOT)** Lua compiler for Minecraft datapacks, using Lua 5.1 a
 
 ## Installing Luam
 See below on how to install Luam and build your first datapack:
-
  - Download the latest **[release](https://github.com/Arsngrobg/Luam/releases/latest)**
  - Unpack the distribution archive
  - Place the `luam` folder in a directory of your choosing *(e.g. programs)*
