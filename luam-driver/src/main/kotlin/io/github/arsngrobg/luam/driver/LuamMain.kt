@@ -3,13 +3,13 @@ package io.github.arsngrobg.luam.driver
 import java.nio.file.Path
 
 import io.github.arsngrobg.luam.compiler.LuamConstants
-import io.github.arsngrobg.luam.compiler.tokenize
-import java.io.StringReader
+import io.github.arsngrobg.luam.compiler.lua.tokenize
 
 object LuamFlags {
     var treatDirAsFile: Boolean = false
     var icon:           Path    = Path.of("pack.png")
     var outputLocation: Path    = Path.of(".")
+    var optLvl:         UInt    = 3u
 }
 
 fun executeBuild(argv: Array<String>): Unit {
@@ -30,6 +30,9 @@ fun executeBuild(argv: Array<String>): Unit {
         } else
         if (arg == "-file") {
             LuamFlags.treatDirAsFile = true
+        } else
+        if (arg.startsWith("-optlvl:")) {
+            LuamFlags.optLvl = arg.removePrefix("-optlvl:").toUInt()
         } else
         if (argi == 1) {
             dir = Path.of(arg)
