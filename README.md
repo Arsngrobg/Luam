@@ -129,6 +129,7 @@ It includes:
 
 ### The Runtime Library
 To be able to natively support the `number` type (`kotlin.Float`), Luam ships floating-point arithmetic functions into compiled datapacks.
+Any time you use arithmetic operators on numbers in Lua, it will translate to custom floating-point arithmetic implemented as native Minecraft functions.
 
 ## Appendix
 ### Similar Projects
