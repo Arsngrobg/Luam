@@ -148,4 +148,3 @@ Some modules are backed by functions in the runtime library.
 
 ### Bibliography
  - [Lua Manual](https://www.lua.org/manual/5.1)
-
