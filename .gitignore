@@ -5,19 +5,3 @@
 #   The Luam project .gitignore
 #   Licensed under the GNU GPLv3
 
-# GRADLE
-.gradle/
-.kotlin/
-
-# BUILD FILES
-build/
-bin/
-*.class
-
-# EDITORS - feel free to add more to this section
-.idea/
-.vscode/
-.zed/
-.project
-.classpath
-.settings
